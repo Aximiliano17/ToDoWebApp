@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DashController {
 	
-@GetMapping("dashboard")
-public String getIndex()
+@GetMapping("/dash")
+public String getDash()
 {
 	return "dash.html";
 }
