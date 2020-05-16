@@ -1,9 +1,17 @@
 package com.todo.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.todo.security.Authority;
 
 @Entity(name="users")
 public class User {
@@ -11,6 +19,7 @@ private int id;
 private String name;
 private String username;
 private String password;
+private Set<Authority> authorities= new HashSet<>();
 
 
 //Getters and Setters
@@ -39,5 +48,11 @@ public String getPassword() {
 public void setPassword(String password) {
 	this.password = password;
 }
-
+@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="user")
+public Set<Authority> getAuthorities() {
+  return authorities;
+}
+public void setAuthorities(Set<Authority> authorities) {
+  this.authorities = authorities;
+}
 }
