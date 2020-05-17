@@ -26,18 +26,13 @@ protected void configure(AuthenticationManagerBuilder auth) throws Exception
 {
 	auth.userDetailsService(userDetailsSerivice)
 	.passwordEncoder(getPasswordEncoder());
-//	auth.inMemoryAuthentication()
-//	.passwordEncoder(getPasswordEncoder())
-//	.withUser("Fernando")
-//	.password(getPasswordEncoder().encode("123"))
-//	.roles("USER");
-	
 }
 @Override
 protected void configure(HttpSecurity http) throws Exception
 {
 	http
 	.authorizeRequests()
+	.antMatchers("/register").permitAll()
 	.antMatchers("/").permitAll()
 	.anyRequest().hasRole("USER")
 	.and().formLogin().loginPage("/login").permitAll()

@@ -2,6 +2,20 @@
 <html xmlns:th="http://thymeleaf.org">
 <head>
 <title>Login Test</title>
+<script
+  src="https://code.jquery.com/jquery-3.5.1.slim.js"
+  integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  $(function()
+		  {
+	  $("#register").click(function()
+			  {
+		  window.location.href="/register";
+			  });
+		  });
+		  
+  </script>
 </head>
 <body>
 	<form action="" method="post">
@@ -28,6 +42,8 @@
 			</p>
 			<div>
 				<button type="submit" class="btn">Log in</button>
+
+				<button type="button" class="btn" id="register">Register</button>
 			</div>
 		</fieldset>
 	</form>
