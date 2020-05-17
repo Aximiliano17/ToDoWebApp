@@ -9,5 +9,4 @@ import com.todo.domain.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 	User findByUsername(String username);
-
 }
