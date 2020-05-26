@@ -5,10 +5,18 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>This is the dashboard</h1>
-<form action="/logout" method="post">
-<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-<button type="submit">Logout</button>
-</form>
+	<h1>This is the dashboard</h1>
+	
+	<form action="/tasks" method="get">
+		<input type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}" />
+		<button class="btn" id="create">Tasks</button>
+	</form>
+
+	<form action="/logout" method="post">
+		<input type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}" />
+		<button type="submit">Logout</button>
+	</form>
 </body>
 </html>

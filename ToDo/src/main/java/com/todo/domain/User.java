@@ -20,6 +20,7 @@ private String name;
 private String username;
 private String password;
 private Set<Authority> authorities= new HashSet<>();
+private Set<Task> tasks=new HashSet<>();
 
 
 //Getters and Setters
@@ -54,5 +55,12 @@ public Set<Authority> getAuthorities() {
 }
 public void setAuthorities(Set<Authority> authorities) {
   this.authorities = authorities;
+}
+@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="user")
+public Set<Task> getTasks() {
+	return tasks;
+}
+public void setTasks(Set<Task> tasks) {
+	this.tasks = tasks;
 }
 }
