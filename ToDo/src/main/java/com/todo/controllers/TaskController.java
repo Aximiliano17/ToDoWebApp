@@ -10,15 +10,17 @@ import com.todo.domain.Task;
 import com.todo.domain.Task.Difficulty;
 import com.todo.domain.Task.Priority;
 import com.todo.domain.User;
-import com.todo.repository.TaskRepository;
+import com.todo.service.TaskService;
 
 @Controller
 public class TaskController {
 	@Autowired
-	private TaskRepository taskRepo;
-	
+	private TaskService taskService;
+
 	@GetMapping("/tasks")
 	public String getTasks() {
+		taskService.getAllTasks();
+
 		return "tasks.html";
 	}
 
@@ -28,7 +30,7 @@ public class TaskController {
 		task.setUser(user);
 		task.setPriority(Priority.LOW);
 		task.setDifficulty(Difficulty.MEDIUM);
-		task=taskRepo.save(task);
+		taskService.addTask(task);
 		return "redirect:/tasks";
 	}
 }
