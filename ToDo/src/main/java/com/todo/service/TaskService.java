@@ -2,11 +2,17 @@ package com.todo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 
 import com.todo.domain.Task;
 import com.todo.repository.TaskRepository;
+
+import javassist.NotFoundException;
 
 public class TaskService {
 	@Autowired
@@ -31,8 +37,11 @@ public class TaskService {
 
 	}
 
-	public Task getTask(Integer id) {
-		return taskRepo.findById(id).get();
+	public Task getTask(Integer id) throws Exception {
+		Optional<Task> taskOpt = taskRepo.findById(id);
+		if (taskOpt.isPresent()) {
+			return taskOpt.get();
+		} else
+			throw new NotFoundException("Task not found");
 	}
-	
 }
