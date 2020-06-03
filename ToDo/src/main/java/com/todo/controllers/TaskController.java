@@ -65,7 +65,6 @@ public class TaskController {
 
 	@PostMapping("/tasks/{taskId}")
 	public String saveTask(@PathVariable Integer taskId,Task task) {
-		//System.out.println(task.getName());
 			taskService.saveTask(task);
 		return "redirect:/tasks";
 	}
