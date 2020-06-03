@@ -15,6 +15,7 @@
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}" />
 			<input type="hidden" th:field="${task.id}"/>
+			<input type="hidden" th:field="${task.user}"/>
 		<div>
 			<label>Title:</label> <input type="text" th:field="${task.name}">
 		</div>
