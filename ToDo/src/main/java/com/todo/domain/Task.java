@@ -1,7 +1,5 @@
 package com.todo.domain;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,13 +16,17 @@ public enum Difficulty
 {
 	EASY,MEDIUM,HARD
 }
+public enum Progression
+{
+	UNSTARTED,INPROGRESS,FINISHED
+}
 private Integer id;
 private String name;
 private String comment;
 private Priority priority;
 private Difficulty difficulty;
 private User user;
-private Date dueDate;
+private Progression progress;
 
 
 //Getters and Setters
@@ -69,10 +71,10 @@ public Difficulty getDifficulty() {
 public void setDifficulty(Difficulty difficulty) {
 	this.difficulty = difficulty;
 }
-public Date getDueDate() {
-	return dueDate;
+public Progression getProgress() {
+	return progress;
 }
-public void setDueDate(Date dueDate) {
-	this.dueDate = dueDate;
+public void setProgress(Progression progress) {
+	this.progress = progress;
 }
 }
