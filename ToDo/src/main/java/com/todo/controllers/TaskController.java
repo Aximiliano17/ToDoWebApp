@@ -1,17 +1,13 @@
 package com.todo.controllers;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.todo.domain.Task;
 import com.todo.domain.Task.Difficulty;
@@ -35,34 +31,27 @@ public class TaskController {
 		return "tasks.html";
 	}
 
-	@GetMapping("/tasks/{taskId}")
-	public String getTask(@PathVariable Integer taskId, ModelMap model, HttpServletResponse response) throws Exception {
-		Optional<Task> taskOpt = taskService.getTask(taskId);
+	@GetMapping("/tasks/createTask")
+	public String getTask(ModelMap model, HttpServletResponse response, @AuthenticationPrincipal User user)
+			throws Exception {
 
-		if (taskOpt.isPresent()) {
-			Task task = taskOpt.get();
-			model.put("task", task);
-			model.put("difficulties", Difficulty.values());
-			model.put("priorities", Difficulty.values());
-		} else {
-			response.sendError(HttpStatus.NOT_FOUND.value(), "Task with id " + taskId + " was not found.");
-		}
+		Task task = new Task();
+		task.setUser(user);
+		model.put("task", task);
+		model.put("difficulties", Difficulty.values());
+		model.put("priorities", Difficulty.values());
 
 		return "task.html";
-
 	}
 
 	@PostMapping("/tasks")
 	public String createTask(@AuthenticationPrincipal User user) {
-		Task task = new Task();
-		task.setUser(user);
-		taskService.addTask(task);
-		return "redirect:/tasks/" + task.getId();
+		return "redirect:/tasks/createTask";
 	}
 
-	@PostMapping("/tasks/{taskId}")
+	@PostMapping("/tasks/createTask")
 	public String saveTask(@ModelAttribute Task task) {
-		taskService.saveTask(task);
+		taskService.addTask(task);
 		return "redirect:/tasks";
 	}
 }
