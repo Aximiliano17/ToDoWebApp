@@ -1,18 +1,18 @@
 package com.todo.controllers;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import java.io.IOException;
+import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.todo.domain.Task;
 import com.todo.domain.Task.Difficulty;
@@ -46,18 +46,34 @@ public class TaskController {
 		model.put("task", task);
 		model.put("difficulties", Difficulty.values());
 		model.put("priorities", Difficulty.values());
-
 		return "taskCreation.html";
 	}
-
-	@PostMapping("/tasks")
-	public String createTask(@AuthenticationPrincipal User user) {
-		return "redirect:/tasks/createTask";
+	@GetMapping("/tasks/{taskId}")
+	public String getTask(@PathVariable Integer taskId, ModelMap model, HttpServletResponse response) throws IOException {
+		Optional<Task> taskOpt = taskService.getTask(taskId);
+	    
+	    if (taskOpt.isPresent()) {
+	      Task task = taskOpt.get();
+	      model.put("task", task);
+	    } else {
+	      response.sendError(HttpStatus.NOT_FOUND.value(), "Task with id " + taskId + " was not found");
+	      return "task";
+	    }
+		return "task";
 	}
 
 	@PostMapping("/tasks/createTask")
 	public String saveTask(@ModelAttribute Task task) {
 		taskService.addTask(task);
+		return "redirect:/tasks";
+	}
+	@PostMapping("/tasks")
+	public String createTask(@AuthenticationPrincipal User user) {
+		return "redirect:/tasks/createTask";
+	}
+	@PostMapping("/tasks/{taskId}")
+	public String modifyTask(@ModelAttribute Task task) {
+		taskService.saveTask(task);
 		return "redirect:/tasks";
 	}
 }
