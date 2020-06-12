@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head>
+ <script th:replace="fragments/header::header1">
+  </script>
 <meta charset="ISO-8859-1">
 <title></title>
 </head>
 <body>
+ <script th:replace="fragments/header::header2" >
+  </script>
 	<h1>Tasks</h1>
 	<div th:if="${tasks.Empty}">
 	<h2>

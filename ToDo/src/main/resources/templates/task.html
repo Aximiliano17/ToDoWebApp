@@ -2,14 +2,9 @@
 <html xmlns:th="http://thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
+ <script th:replace="fragments/header::header1">
+  </script>
 <title></title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.js"
-	integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="
-	crossorigin="anonymous"></script>
 <script type="text/javascript">
 	$(function() {
 		$("#return").click(function() {
@@ -19,6 +14,7 @@
 </script>
 </head>
 <body>
+<div th:replace="fragments/header::header2"></div>
 	<div class="container">
 		<div class="card col-md-11 p-3 mb-2 bg-light text-dark"
 			style="margin-top: 1.5em">
