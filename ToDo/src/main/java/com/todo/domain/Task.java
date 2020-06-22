@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
+
 
 @Entity
 public class Task {
@@ -29,6 +29,7 @@ private Priority priority;
 private Difficulty difficulty;
 private User user;
 private Progression progress;
+private Project project;
 
 
 //Getters and Setters
@@ -58,9 +59,6 @@ public User getUser() {
 public void setUser(User user) {
 	this.user = user;
 }
-public static Task save(Task task) {
-	return null;
-}
 public Priority getPriority() {
 	return priority;
 }
@@ -79,4 +77,12 @@ public Progression getProgress() {
 public void setProgress(Progression progress) {
 	this.progress = progress;
 }
+@ManyToOne
+public Project getProject() {
+	return project;
+}
+public void setProject(Project project) {
+	this.project = project;
+}
+
 }

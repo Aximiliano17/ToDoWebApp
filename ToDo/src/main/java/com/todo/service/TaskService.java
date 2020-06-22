@@ -1,7 +1,5 @@
 package com.todo.service;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +11,6 @@ import org.springframework.stereotype.Service;
 import com.todo.domain.Task;
 import com.todo.domain.User;
 import com.todo.repository.TaskRepository;
-
-import javassist.NotFoundException;
 
 @Service
 public class TaskService {
