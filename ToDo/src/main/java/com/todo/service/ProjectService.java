@@ -41,7 +41,7 @@ public class ProjectService {
 
 }
 
-	public Object getUserProject(User user) {
+	public Object getUserProjects(User user) {
 		return projectRepo.findAllByUser(user);
 	}
 }
