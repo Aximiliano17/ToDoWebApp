@@ -15,8 +15,4 @@ public class DashController {
 	public String getDash() {
 		return "dash.html";
 	}
-	@PostMapping("/dash")
-	public String createTask(@AuthenticationPrincipal User user) {
-		return "redirect:/tasks";
-	}
 }
