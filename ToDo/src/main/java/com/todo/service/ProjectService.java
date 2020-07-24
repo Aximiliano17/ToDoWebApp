@@ -10,12 +10,18 @@ import org.springframework.stereotype.Service;
 import com.todo.domain.Project;
 import com.todo.domain.User;
 import com.todo.repository.ProjectRepository;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class ProjectService {
 	@Autowired
 	private ProjectRepository projectRepo;
 
+	public List<Project> findAll(Sort by)
+	{
+		return projectRepo.findAll(by);
+	}
+	
 	public List<Project> getAllprojects() {
 		List<Project> projects = new ArrayList<>();
 		projectRepo.findAll().forEach(projects::add);
@@ -37,11 +43,19 @@ public class ProjectService {
 
 	public Optional<Project> getProject(Integer id) {
 		Optional<Project> projectOpt = projectRepo.findById(id);
-			return projectOpt;
+		return projectOpt;
 
-}
+	}
 
-	public Object getUserProjects(User user) {
+	public List<Project> getUserProjects(User user) {
 		return projectRepo.findAllByUser(user);
+	}
+
+	public List<Project> findByOrderByNameAsc() {
+		return projectRepo.findByOrderByNameAsc();
+	}
+
+	public List<Project> findByCommentContainsOrNameContainsAllIgnoreCaseOrderByNameAsc(String comment, String name) {
+		return findByCommentContainsOrNameContainsAllIgnoreCaseOrderByNameAsc(comment, name);
 	}
 }

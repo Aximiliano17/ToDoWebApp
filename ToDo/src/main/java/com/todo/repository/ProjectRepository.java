@@ -13,4 +13,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
 	List<Project> findAllByUser(User user);
 
+	List<Project> findByOrderByNameAsc();
+
+	List<Project> findByCommentContainsOrNameContainsAllIgnoreCaseOrderByNameAsc(String comment, String name);
 }

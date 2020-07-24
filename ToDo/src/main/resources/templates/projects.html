@@ -1,26 +1,75 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head>
- <script th:replace="fragments/header::header1">
+<script th:replace="fragments/header::header1">
   </script>
 <meta charset="ISO-8859-1">
 <title></title>
 </head>
 <body>
- <script th:replace="fragments/header::header2" >
+	<script th:replace="fragments/header::header2">
   </script>
 	<h1>Projects</h1>
 	<div th:if="${projects.Empty}">
-	<h2>
-	No Projects Available
-	</h2>
+		<h2>No Projects Available</h2>
 	</div>
-	<table>
-		<tr th:each="project: ${projects}">
-  <td>  <a th:href="@{/projects/{projectId}(projectId=${project.id})}" th:text="${project.name}" ></a></td>
-</tr>
-</table>
+<div th:if="${!projects.Empty}">
+	<table class="table table-striped">
+		<tr class="bg-info" bgcolor="#fff">
+			<th data-column="name" data-order="desc">Name &#9650</th>
+			<th data-column="comment" data-order="desc">Comment &#9650</th>
 
+		</tr>
+
+		<tbody id="myTable">
+
+		</tbody>
+	</table>
+
+	<script th:inline="javascript">
+
+	 var list = [[${"projects"}]];
+
+
+	$('th').on('click', function(){
+		
+		var column = $(this).data('column')
+		var order = $(this).data('order')
+		var text = $(this).html()
+		text = text.substring(0, text.length - 1)
+
+		if(order == 'desc'){
+			$(this).data('order', "asc")
+			list = list.sort((a,b) => a[column] > b[column] ? 1 : -1)
+			text += '&#9660'
+
+		}else{
+			$(this).data('order', "desc")
+			list = list.sort((a,b) => a[column] < b[column] ? 1 : -1)
+			text += '&#9650'
+
+		}
+		$(this).html(text)
+		buildTable(list)
+	})
+
+	buildTable(list)
+
+	function buildTable(data){
+		var table = document.getElementById('myTable')
+		table.innerHTML = ''
+		for (var i = 0; i < data.length; i++){
+			var row = `<tr>
+							<td>${data[i].getName()}</td>
+							<td>${data[i].getComment()}</td>
+					  </tr>`
+			table.innerHTML += row
+
+
+		}
+	}
+</script>
+</div>
 	<form action="" method="post">
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}" />
