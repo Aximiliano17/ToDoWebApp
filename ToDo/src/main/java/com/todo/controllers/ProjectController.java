@@ -1,14 +1,12 @@
 package com.todo.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 
@@ -38,45 +36,17 @@ public class ProjectController {
 	@Autowired
 	private ProjectService projectService;
 
-	private Sort.Direction getSortDirection(String direction) {
-		if (direction.equals("asc")) {
-			return Sort.Direction.ASC;
-		} else if (direction.equals("desc")) {
-			return Sort.Direction.DESC;
-		}
-
-		return Sort.Direction.ASC;
-	}
-
 	@GetMapping("/projects")
-	 public ResponseEntity<List<Project>> getAllProjects(@RequestParam(defaultValue = "name,desc") String[] sort) {
-
-	    try {
-	      List<Order> orders = new ArrayList<Order>();
-
-	      if (sort[0].contains(",")) {
-	        // will sort more than 2 columns
-	        for (String sortOrder : sort) {
-	          // sortOrder="column, direction"
-	          String[] _sort = sortOrder.split(",");
-	          orders.add(new Order(getSortDirection(_sort[1]), _sort[0]));
-	        }
-	      } else {
-	        // sort=[column, direction]
-	        orders.add(new Order(getSortDirection(sort[1]), sort[0]));
-	      }
-
-	      List<Project> projects = projectService.findAll(Sort.by(orders));
-
-	      if (projects.isEmpty()) {
-	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	      }
-
-	      return new ResponseEntity<>(projects, HttpStatus.OK);
-	    } catch (Exception e) {
-	      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-	  }
+	public String getProjects(@AuthenticationPrincipal User user, Model model) {
+		Page<Project> page= projectService.findAll();
+		List<Project> projects= page.getContent();
+		int totalItems=page.getNumberOfElements();
+		int totalPages=page.getTotalPages();
+		model.addAttribute("projects", projects);
+		model.addAttribute("totalItems",totalItems);
+		model.addAttribute("totalPages",totalPages);
+		return "projects.html";
+	}
 
 	@GetMapping("/projects/createProject")
 	public String getProject(ModelMap model, HttpServletResponse response, @AuthenticationPrincipal User user)

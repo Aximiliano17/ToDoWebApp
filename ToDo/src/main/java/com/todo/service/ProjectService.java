@@ -10,16 +10,20 @@ import org.springframework.stereotype.Service;
 import com.todo.domain.Project;
 import com.todo.domain.User;
 import com.todo.repository.ProjectRepository;
-import org.springframework.data.domain.Sort;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class ProjectService {
 	@Autowired
 	private ProjectRepository projectRepo;
 
-	public List<Project> findAll(Sort by)
+	public Page<Project> findAll()
 	{
-		return projectRepo.findAll(by);
+		Pageable pageable=PageRequest.of(0,10);
+		return projectRepo.findAll(pageable);
 	}
 	
 	public List<Project> getAllprojects() {
@@ -49,10 +53,6 @@ public class ProjectService {
 
 	public List<Project> getUserProjects(User user) {
 		return projectRepo.findAllByUser(user);
-	}
-
-	public List<Project> findByOrderByNameAsc() {
-		return projectRepo.findByOrderByNameAsc();
 	}
 
 	public List<Project> findByCommentContainsOrNameContainsAllIgnoreCaseOrderByNameAsc(String comment, String name) {
