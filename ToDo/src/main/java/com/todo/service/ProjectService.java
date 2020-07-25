@@ -20,9 +20,9 @@ public class ProjectService {
 	@Autowired
 	private ProjectRepository projectRepo;
 
-	public Page<Project> findAll()
+	public Page<Project> findAll(int pageNumber)
 	{
-		Pageable pageable=PageRequest.of(0,10);
+		Pageable pageable=PageRequest.of(pageNumber-1,10);
 		return projectRepo.findAll(pageable);
 	}
 	

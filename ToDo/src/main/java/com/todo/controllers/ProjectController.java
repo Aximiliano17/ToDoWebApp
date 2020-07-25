@@ -38,13 +38,20 @@ public class ProjectController {
 
 	@GetMapping("/projects")
 	public String getProjects(@AuthenticationPrincipal User user, Model model) {
-		Page<Project> page= projectService.findAll();
+		return listByPage(user,model,1);
+	}
+	@GetMapping("/projects/page/{pageNumber}")
+	public String listByPage(@AuthenticationPrincipal User user,Model model,
+			@PathVariable("pageNumber") int currentPage)
+	{
+		Page<Project> page= projectService.findAll(currentPage);
 		List<Project> projects= page.getContent();
-		int totalItems=page.getNumberOfElements();
+		long totalItems=page.getTotalElements();
 		int totalPages=page.getTotalPages();
 		model.addAttribute("projects", projects);
 		model.addAttribute("totalItems",totalItems);
 		model.addAttribute("totalPages",totalPages);
+		model.addAttribute("currentPage",currentPage);
 		return "projects.html";
 	}
 
