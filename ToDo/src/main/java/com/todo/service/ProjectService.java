@@ -21,12 +21,12 @@ public class ProjectService {
 	@Autowired
 	private ProjectRepository projectRepo;
 
-	public Page<Project> findAll(int pageNumber,String sortField,String sortDir)
+	public Page<Project> findAllByUser(User user,int pageNumber,String sortField,String sortDir)
 	{
 		Sort sort=Sort.by(sortField);
 		sort=sortDir.equals("asc") ? sort.ascending():sort.descending();
-		Pageable pageable=PageRequest.of(pageNumber-1,1,sort);
-		return projectRepo.findAll(pageable);
+		Pageable pageable=PageRequest.of(pageNumber-1,5,sort);
+		return projectRepo.findAllByUser(user,pageable);
 	}
 	
 	public List<Project> getAllprojects() {
@@ -52,10 +52,6 @@ public class ProjectService {
 		Optional<Project> projectOpt = projectRepo.findById(id);
 		return projectOpt;
 
-	}
-
-	public List<Project> getUserProjects(User user) {
-		return projectRepo.findAllByUser(user);
 	}
 
 	public List<Project> findByCommentContainsOrNameContainsAllIgnoreCaseOrderByNameAsc(String comment, String name) {

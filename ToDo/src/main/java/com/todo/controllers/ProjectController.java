@@ -47,7 +47,7 @@ public class ProjectController {
 			@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir)
 	{
-		Page<Project> page= projectService.findAll(currentPage,sortField,sortDir);
+		Page<Project> page= projectService.findAllByUser(user,currentPage,sortField,sortDir);
 		List<Project> projects= page.getContent();
 		long totalItems=page.getTotalElements();
 		int totalPages=page.getTotalPages();
