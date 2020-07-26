@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.repository.query.Param;
 
 import com.todo.domain.Project;
 import com.todo.domain.User;
@@ -38,13 +39,15 @@ public class ProjectController {
 
 	@GetMapping("/projects")
 	public String getProjects(@AuthenticationPrincipal User user, Model model) {
-		return listByPage(user,model,1);
+		return listByPage(user,model,1,"name","asc");
 	}
 	@GetMapping("/projects/page/{pageNumber}")
 	public String listByPage(@AuthenticationPrincipal User user,Model model,
-			@PathVariable("pageNumber") int currentPage)
+			@PathVariable("pageNumber") int currentPage,
+			@Param("sortField") String sortField,
+			@Param("sortDir") String sortDir)
 	{
-		Page<Project> page= projectService.findAll(currentPage);
+		Page<Project> page= projectService.findAll(currentPage,sortField,sortDir);
 		List<Project> projects= page.getContent();
 		long totalItems=page.getTotalElements();
 		int totalPages=page.getTotalPages();
@@ -52,6 +55,10 @@ public class ProjectController {
 		model.addAttribute("totalItems",totalItems);
 		model.addAttribute("totalPages",totalPages);
 		model.addAttribute("currentPage",currentPage);
+		model.addAttribute("sortField",sortField);
+		model.addAttribute("sortDir",sortDir);
+		String reverseSortDir=sortDir.equals("asc")?"desc":"asc";
+		model.addAttribute("reverseSortDir",reverseSortDir);
 		return "projects.html";
 	}
 

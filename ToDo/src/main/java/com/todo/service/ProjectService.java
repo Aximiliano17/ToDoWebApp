@@ -14,15 +14,18 @@ import com.todo.repository.ProjectRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class ProjectService {
 	@Autowired
 	private ProjectRepository projectRepo;
 
-	public Page<Project> findAll(int pageNumber)
+	public Page<Project> findAll(int pageNumber,String sortField,String sortDir)
 	{
-		Pageable pageable=PageRequest.of(pageNumber-1,10);
+		Sort sort=Sort.by(sortField);
+		sort=sortDir.equals("asc") ? sort.ascending():sort.descending();
+		Pageable pageable=PageRequest.of(pageNumber-1,1,sort);
 		return projectRepo.findAll(pageable);
 	}
 	

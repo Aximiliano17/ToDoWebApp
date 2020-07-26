@@ -19,7 +19,7 @@
 	<div >
 		<table class="table table-striped" border="1">
 			<tr class="bg-info" bgcolor="#fff">
-				<th data-column="name" data-order="desc">Name &#9650</th>
+				<th data-column="name" data-order="desc">Name <a th:href="@{'/projects/page/'+ ${currentPage}+ '?sortField=name&sortDir='+${reverseSortDir}}"> &#9650</a></th>
 				<th data-column="comment" data-order="desc">Comment &#9650</th>
 				<th data-column="action">Action</th>
 			</tr>
@@ -47,7 +47,7 @@
 	<span th:unless="${currentPage>1}">Previous</span>-
 	
 	<span th:each="i: ${#numbers.sequence(1,totalPages)}">
-	<a th:if="${i != currentPage}" th:href="@{'/projects/page/'+${i}}">[[${i}]] </a>
+	<a th:if="${i != currentPage}" th:href="@{'/projects/page/'+${i}} +'?sortField=' +${sortField} +'&sortDir=' + ${sortDir}">[[${i}]] </a>
 	<span th:unless="${i != currentPage}">[[${i}]] </span>
 	 &nbsp; &nbsp;
 	</span>
