@@ -13,6 +13,8 @@ public class DashController {
 
 	@GetMapping("/dash")
 	public String getDash() {
+		System.out.println("This is a git test");
 		return "dash.html";
 	}
+	
 }
