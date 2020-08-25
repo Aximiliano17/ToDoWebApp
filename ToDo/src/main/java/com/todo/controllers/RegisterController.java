@@ -17,6 +17,7 @@ public class RegisterController {
 	@GetMapping("/register")
 	public String registerGet(ModelMap model) {
 		model.put("user", new User());
+		model.addAttribute("hideFooter", true);
 		return "register.html";
 	}
 
