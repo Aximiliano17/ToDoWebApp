@@ -11,7 +11,9 @@
 	<script th:replace="fragments/header::header2">
 		
 	</script>
-	<h1>Projects</h1>
+	<div th:if="${!projects.Empty}">
+		<h2>List of Projects</h2>
+	</div>
 	<div th:if="${projects.Empty}">
 		<h2>No Projects Available</h2>
 	</div>
@@ -20,15 +22,19 @@
 		<table class="table table-striped" border="1">
 			<tr class="bg-info" bgcolor="#fff">
 				<th data-column="name" data-order="desc">Name <a th:href="@{'/projects/page/'+ ${currentPage}+ '?sortField=name&sortDir='+${reverseSortDir}}"> &#9650</a></th>
-				<th data-column="comment" data-order="desc">Comment &#9650</th>
+				<th data-column="description" data-order="desc">Description</th>
+				<th data-column="progress" data-order="desc">Progress &#9650</th>
+					<th data-column="dueDate" data-order="desc">Due Date &#9650</th>
 				<th data-column="action">Action</th>
 			</tr>
 			<tbody id="myTable">
 				<tr th:each="project: ${projects}">
 					<td><a
 						th:href="@{/projects/{projectId}(projectId=${project.id})}"
-						th:text="${project.name}"></a></td>
-					<td th:text="${project.comment}" />
+						th:text="${project.getName()}"></a></td>
+					<td th:text="${project.getDescription()}" />
+					<td th:text="${project.progress}" />
+					<td th:text="${project.dueDate}" />
 					<td align="center">
 					<a th:href="@{'/delete/' + ${project.id}}">Delete</a>
 					</td>

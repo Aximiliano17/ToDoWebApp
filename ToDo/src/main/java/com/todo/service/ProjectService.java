@@ -54,7 +54,7 @@ public class ProjectService {
 
 	}
 
-	public List<Project> findByCommentContainsOrNameContainsAllIgnoreCaseOrderByNameAsc(String comment, String name) {
-		return findByCommentContainsOrNameContainsAllIgnoreCaseOrderByNameAsc(comment, name);
+	public List<Project> findByDescriptionContainsOrNameContainsAllIgnoreCaseOrderByNameAsc(String description, String name) {
+		return findByDescriptionContainsOrNameContainsAllIgnoreCaseOrderByNameAsc(description, name);
 	}
 }

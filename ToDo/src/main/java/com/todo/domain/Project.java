@@ -14,14 +14,31 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+
 @Entity
 public class Project {
 
+	public enum Progress
+	{
+		Incomplete, Completed
+	}
+	
 	private Integer id;
 	private String name;
-	private String comment;
+	private String description;
 	private User user;
 	private List<Task> tasks = new ArrayList<>();
+	private Progress progress;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dueDate;
+	
+	public Project()
+	{
+		progress=Progress.Incomplete;
+	}
 
 	// Getters and Setters
 	@Id
@@ -42,12 +59,12 @@ public class Project {
 		this.name = name;
 	}
 
-	public String getComment() {
-		return comment;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@ManyToOne
@@ -66,5 +83,21 @@ public class Project {
 
 	public void setTasks(List<Task> tasks) {
 		this.tasks=tasks;
+	}
+
+	public Progress getProgress() {
+		return progress;
+	}
+
+	public void setProgress(Progress progress) {
+		this.progress = progress;
+	}
+
+	public LocalDate getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(LocalDate dueDate) {
+		this.dueDate = dueDate;
 	}
 }
