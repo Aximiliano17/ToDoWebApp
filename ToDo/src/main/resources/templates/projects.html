@@ -28,7 +28,7 @@
 				<th data-column="action">Action</th>
 			</tr>
 			<tbody id="myTable">
-				<tr th:each="project: ${projects}">
+				<tr th:each="project: ${projects}" th:style="${project.progress} == ${progressEnum} ? 'background-color: chartreuse' : 'background-color: yellow'">
 					<td><a
 						th:href="@{/projects/{projectId}(projectId=${project.id})}"
 						th:text="${project.getName()}"></a></td>

@@ -46,6 +46,7 @@ public class ProjectController {
 			@PathVariable("pageNumber") int currentPage,
 			@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir)
+	
 	{
 		Page<Project> page= projectService.findAllByUser(user,currentPage,sortField,sortDir);
 		List<Project> projects= page.getContent();
@@ -57,6 +58,7 @@ public class ProjectController {
 		model.addAttribute("currentPage",currentPage);
 		model.addAttribute("sortField",sortField);
 		model.addAttribute("sortDir",sortDir);
+		model.addAttribute("progressEnum",Project.Progress.Completed);
 		String reverseSortDir=sortDir.equals("asc")?"desc":"asc";
 		model.addAttribute("reverseSortDir",reverseSortDir);
 		return "projects.html";
