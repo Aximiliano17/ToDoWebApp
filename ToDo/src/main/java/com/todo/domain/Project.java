@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Project {
@@ -34,10 +35,13 @@ public class Project {
 	private Progress progress;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dueDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dateCreated;
 	
 	public Project()
 	{
 		progress=Progress.Incomplete;
+		dateCreated= LocalDate.now();
 	}
 
 	// Getters and Setters
