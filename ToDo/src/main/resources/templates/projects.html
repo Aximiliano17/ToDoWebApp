@@ -46,10 +46,10 @@
 	&nbsp;
 	Total Items: [[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]]
 	&nbsp;
-	<a th:if="${currentPage>1}" th:href="@{/projects/page/1}">First</a>
+	<a th:if="${currentPage>1}" th:href="@{/projects/page/1}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir}">First</a>
 	<span th:unless="${currentPage>1}">First</span>-
 	
-	<a th:if="${currentPage>1}" th:href="@{'/projects/page/'+${currentPage-1}}">Previous</a>
+	<a th:if="${currentPage>1}" th:href="@{'/projects/page/'+${currentPage-1}}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir}">Previous</a>
 	<span th:unless="${currentPage>1}">Previous</span>-
 	
 	<span th:each="i: ${#numbers.sequence(1,totalPages)}">
@@ -58,10 +58,10 @@
 	 &nbsp; &nbsp;
 	</span>
 	
-	<a th:if="${currentPage<totalPages}" th:href="@{'/projects/page/'+${currentPage+1}}">Next</a>
+	<a th:if="${currentPage<totalPages}" th:href="@{'/projects/page/'+${currentPage+1}}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir}">Next</a>
 	<span th:unless="${currentPage<totalPages}">Next</span>-
 	
-	<a th:if="${currentPage<totalPages}" th:href="@{'/projects/page/'+${totalPages}}">Last</a>
+	<a th:if="${currentPage<totalPages}" th:href="@{'/projects/page/'+${totalPages}}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir}">Last</a>
 	<span th:unless="${currentPage<totalPages}">Last</span>
 	
 	</div>

@@ -27,8 +27,8 @@ import com.todo.service.ProjectService;
 /**
  * project
  * 
- * This is a Controller for both the projects view and view. One is for
- * displaying multiple tasks, another one is for creating and updating a task.
+ * This is a Controller for both the projects view and project view. One is for
+ * displaying multiple projects, another one is for creating and updating a project.
  *
  */
 @Controller
