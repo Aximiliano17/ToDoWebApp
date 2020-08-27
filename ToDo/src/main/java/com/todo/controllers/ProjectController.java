@@ -95,7 +95,7 @@ public class ProjectController {
 		return "redirect:/projects";
 	}
 
-	@PostMapping("/projects")
+	@PostMapping(value={"/projects", "/projects/page/{pageNumber}"})
 	public String createProject(@AuthenticationPrincipal User user) {
 		return "redirect:/projects/createProject";
 	}
