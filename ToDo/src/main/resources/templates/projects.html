@@ -9,7 +9,12 @@
 </head>
 <body>
 	<script th:replace="fragments/header::header2">
-		
+	</script>
+	<script type="text/javascript">
+	function clearFilter()
+	{
+		window.location="/projects";
+	}
 	</script>
 	<div style="margin-top: 2em;">
 		<div th:if="${!projects.Empty}">
@@ -36,6 +41,7 @@
 				 <input type="text" name="keyword"
 					th:value="${keyword}" required /> <input type="submit"
 					value="Search" />
+					<input type="button" value="Clear" onClick="clearFilter()" />
 			</form>
 		</div>
 		<table class="table table-striped" border="1">
