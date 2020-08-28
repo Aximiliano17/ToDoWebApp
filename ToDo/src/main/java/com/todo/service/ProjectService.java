@@ -28,6 +28,13 @@ public class ProjectService {
 		Pageable pageable=PageRequest.of(pageNumber-1,5,sort);
 		return projectRepo.findAllByUser(user,pageable);
 	}
+	public Page<Project> findByUserAndNameContains(User user,int pageNumber,String sortField,String sortDir, String keyword)
+	{
+		Sort sort=Sort.by(sortField);
+		sort=sortDir.equals("asc") ? sort.ascending():sort.descending();
+		Pageable pageable=PageRequest.of(pageNumber-1,5,sort);
+		return projectRepo.findByUserAndNameContains(user,keyword,pageable);
+	}
 	
 	public List<Project> getAllprojects() {
 		List<Project> projects = new ArrayList<>();
@@ -52,9 +59,5 @@ public class ProjectService {
 		Optional<Project> projectOpt = projectRepo.findById(id);
 		return projectOpt;
 
-	}
-
-	public List<Project> findByDescriptionContainsOrNameContainsAllIgnoreCaseOrderByNameAsc(String description, String name) {
-		return findByDescriptionContainsOrNameContainsAllIgnoreCaseOrderByNameAsc(description, name);
 	}
 }

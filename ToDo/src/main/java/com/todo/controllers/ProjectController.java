@@ -39,16 +39,17 @@ public class ProjectController {
 
 	@GetMapping("/projects")
 	public String getProjects(@AuthenticationPrincipal User user, Model model) {
-		return listByPage(user,model,1,"name","asc");
+		String keyword="";
+		return listByPage(user,model,1,"name","asc",keyword);
 	}
 	@GetMapping("/projects/page/{pageNumber}")
 	public String listByPage(@AuthenticationPrincipal User user,Model model,
 			@PathVariable("pageNumber") int currentPage,
 			@Param("sortField") String sortField,
-			@Param("sortDir") String sortDir)
-	
+			@Param("sortDir") String sortDir,
+			@Param("keyword")String keyword)
 	{
-		Page<Project> page= projectService.findAllByUser(user,currentPage,sortField,sortDir);
+		Page<Project> page= projectService.findByUserAndNameContains(user,currentPage,sortField,sortDir,keyword);
 		List<Project> projects= page.getContent();
 		long totalItems=page.getTotalElements();
 		int totalPages=page.getTotalPages();
@@ -59,6 +60,7 @@ public class ProjectController {
 		model.addAttribute("sortField",sortField);
 		model.addAttribute("sortDir",sortDir);
 		model.addAttribute("progressEnum",Project.Progress.Completed);
+		model.addAttribute("keyword",keyword);
 		String reverseSortDir=sortDir.equals("asc")?"desc":"asc";
 		model.addAttribute("reverseSortDir",reverseSortDir);
 		return "projects.html";
