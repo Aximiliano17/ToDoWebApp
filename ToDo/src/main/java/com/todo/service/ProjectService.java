@@ -21,19 +21,12 @@ public class ProjectService {
 	@Autowired
 	private ProjectRepository projectRepo;
 
-	public Page<Project> findAllByUser(User user,int pageNumber,String sortField,String sortDir)
+	public Page<Project> findByUserAndProgressAndNameContains(User user,int pageNumber,String sortField,String sortDir,Project.Progress progress, String keyword)
 	{
 		Sort sort=Sort.by(sortField);
 		sort=sortDir.equals("asc") ? sort.ascending():sort.descending();
 		Pageable pageable=PageRequest.of(pageNumber-1,5,sort);
-		return projectRepo.findAllByUser(user,pageable);
-	}
-	public Page<Project> findByUserAndNameContains(User user,int pageNumber,String sortField,String sortDir, String keyword)
-	{
-		Sort sort=Sort.by(sortField);
-		sort=sortDir.equals("asc") ? sort.ascending():sort.descending();
-		Pageable pageable=PageRequest.of(pageNumber-1,5,sort);
-		return projectRepo.findByUserAndNameContains(user,keyword,pageable);
+		return projectRepo.findByUserAndProgressAndNameContains(user,progress,keyword,pageable);
 	}
 	
 	public List<Project> getAllprojects() {

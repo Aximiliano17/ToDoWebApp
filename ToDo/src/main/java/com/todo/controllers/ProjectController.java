@@ -22,6 +22,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.todo.domain.Project;
 import com.todo.domain.User;
+import com.todo.domain.Project.Progress;
 import com.todo.service.ProjectService;
 
 /**
@@ -40,16 +41,18 @@ public class ProjectController {
 	@GetMapping("/projects")
 	public String getProjects(@AuthenticationPrincipal User user, Model model) {
 		String keyword="";
-		return listByPage(user,model,1,"name","asc",keyword);
+		Progress progress=Progress.Incomplete;
+		return listByPage(user,model,1,"name","asc",progress,keyword);
 	}
 	@GetMapping("/projects/page/{pageNumber}")
 	public String listByPage(@AuthenticationPrincipal User user,Model model,
 			@PathVariable("pageNumber") int currentPage,
 			@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir,
+			@Param("progress")Progress progress,
 			@Param("keyword")String keyword)
 	{
-		Page<Project> page= projectService.findByUserAndNameContains(user,currentPage,sortField,sortDir,keyword);
+		Page<Project> page= projectService.findByUserAndProgressAndNameContains(user,currentPage,sortField,sortDir,progress,keyword);
 		List<Project> projects= page.getContent();
 		long totalItems=page.getTotalElements();
 		int totalPages=page.getTotalPages();
@@ -59,7 +62,7 @@ public class ProjectController {
 		model.addAttribute("currentPage",currentPage);
 		model.addAttribute("sortField",sortField);
 		model.addAttribute("sortDir",sortDir);
-		model.addAttribute("progressEnum",Project.Progress.Completed);
+		model.addAttribute("progress",progress);
 		model.addAttribute("keyword",keyword);
 		String reverseSortDir=sortDir.equals("asc")?"desc":"asc";
 		model.addAttribute("reverseSortDir",reverseSortDir);
