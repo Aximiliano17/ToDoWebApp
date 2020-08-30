@@ -26,7 +26,7 @@ public class ProjectService {
 		Sort sort=Sort.by(sortField);
 		sort=sortDir.equals("asc") ? sort.ascending():sort.descending();
 		Pageable pageable=PageRequest.of(pageNumber-1,5,sort);
-		return projectRepo.findByUserAndProgressAndNameContains(user,progress,keyword,pageable);
+		return projectRepo.findByUserAndProgressAndTrashFalseAndNameContains(user,progress,keyword,pageable);
 	}
 	
 	public List<Project> getAllprojects() {

@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.repository.query.Param;
 
 import com.todo.domain.Project;
@@ -26,9 +24,8 @@ import com.todo.domain.Project.Progress;
 import com.todo.service.ProjectService;
 
 /**
- * project
  * 
- * This is a Controller for both the projects view and project view. One is for
+ * This is a Controller for both the projects and project view. One is for
  * displaying multiple projects, another one is for creating and updating a project.
  *
  */

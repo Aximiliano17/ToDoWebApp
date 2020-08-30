@@ -30,6 +30,7 @@ public class Project {
 	private String name;
 	private String description;
 	private User user;
+	private boolean isTrash;
 	private List<Task> tasks = new ArrayList<>();
 	private Progress progress;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -40,6 +41,7 @@ public class Project {
 	public Project()
 	{
 		progress=Progress.Incomplete;
+		isTrash=true;
 		dateCreated= LocalDate.now();
 	}
 
@@ -102,5 +104,13 @@ public class Project {
 
 	public void setDueDate(LocalDate dueDate) {
 		this.dueDate = dueDate;
+	}
+
+	public boolean isTrash() {
+		return isTrash;
+	}
+
+	public void setTrash(boolean isTrash) {
+		this.isTrash = isTrash;
 	}
 }

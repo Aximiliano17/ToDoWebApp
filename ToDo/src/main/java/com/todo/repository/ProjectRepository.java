@@ -13,5 +13,5 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
 	Page<Project> findAllByUser(User user,Pageable pageable);
 
-	Page<Project> findByUserAndProgressAndNameContains(User user,Project.Progress progress,String keyword, Pageable pageable);
+	Page<Project> findByUserAndProgressAndTrashFalseAndNameContains(User user,Project.Progress progress,String keyword, Pageable pageable);
 }
