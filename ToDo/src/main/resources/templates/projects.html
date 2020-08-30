@@ -25,7 +25,7 @@
 		</div>
 	</div>
 
-	<div align="center" th:if="${!projects.Empty}">
+	<div align="center" >
 		<div align="right" style="margin-right: 5em">
 			<form
 				th:action="@{/projects/page/1}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}">
@@ -69,17 +69,22 @@
 			</tbody>
 		</table>
 		<div>
-			&nbsp; Total Items: [[${totalItems}]] - Page [[${currentPage}]] of
-			[[${totalPages}]] &nbsp; <a th:if="${currentPage>1}"
+		&nbsp;
+		<span th:unless="${totalPages<1}">  Total Items: [[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]] </span>
+			<span th:unless="${totalPages>0}">  Total Items: [[${totalItems}]] - Page [[${0}]] of [[${totalPages}]] </span>
+		&nbsp; 
+		<a th:if="${currentPage>1}"
 				th:href="@{/projects/page/1}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir} + '&progress=' + ${progress} +'&keyword='+ ${keyword}">First</a>
 			<span th:unless="${currentPage>1}">First</span>- <a
 				th:if="${currentPage>1}"
 				th:href="@{'/projects/page/'+${currentPage-1}}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir} + '&progress=' + ${progress} +'&keyword='+ ${keyword}">Previous</a>
-			<span th:unless="${currentPage>1}">Previous</span>- <span
-				th:each="i: ${#numbers.sequence(1,totalPages)}"> <a
+			<span th:unless="${currentPage>1}">Previous</span>-
+			 <span
+				th:each="i: ${#numbers.sequence(1,totalPages)}" th:if="${totalPages>0}"> <a
 				th:if="${i != currentPage}"
 				th:href="@{'/projects/page/'+${i}} +'?sortField=' +${sortField} +'&sortDir=' + ${sortDir} + '&progress=' + ${progress} +'&keyword='+ ${keyword}">[[${i}]]
-			</a> <span th:unless="${i != currentPage}">[[${i}]] </span> &nbsp; &nbsp;
+			</a> 
+			<span th:unless="${i != currentPage}">[[${i}]] </span> &nbsp; &nbsp;
 			</span> <a th:if="${currentPage<totalPages}"
 				th:href="@{'/projects/page/'+${currentPage+1}}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir}+ '&progress=' + ${progress} +'&keyword='+ ${keyword}">Next</a>
 			<span th:unless="${currentPage<totalPages}">Next</span>- <a
