@@ -47,11 +47,13 @@
 		<table class="table table-striped" border="1">
 			<tr class="bg-info" bgcolor="#fff">
 				<th data-column="name" data-order="desc">Name <a
-					th:href="@{'/projects/page/'+ ${currentPage}+ '?sortField=name&sortDir='+${reverseSortDir}}">
+					th:href="@{'/projects/page/'+ ${currentPage}+ '?sortField=name&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
 						&#9650</a></th>
 				<th data-column="description" data-order="desc">Description</th>
-				<th data-column="progress" data-order="desc">Progress &#9650</th>
-				<th data-column="dueDate" data-order="desc">Due Date &#9650</th>
+				<th data-column="progress" data-order="desc">Progress</th>
+				<th data-column="dueDate" data-order="desc">Due Date  <a
+					th:href="@{'/projects/page/'+ ${currentPage}+ '?sortField=dueDate&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
+						&#9650</a></th>
 				<th data-column="action">Action</th>
 			</tr>
 			<tbody id="myTable">
