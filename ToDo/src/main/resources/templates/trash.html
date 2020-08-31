@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<script th:replace="fragments/header::header1">
+	
+</script>
+<meta charset="ISO-8859-1">
+<title></title>
+</head>
+<body>
+	<script th:replace="fragments/header::header2">
+		
+	</script>
+	<!-- 	<script type="text/javascript">
+	function clearFilter()
+	{
+		window.location="/projects";
+	}
+	</script> -->
+	<div style="margin-top: 2em;">
+		<div th:if="${!projects.Empty}">
+			<h2>List of Trashed Projects</h2>
+		</div>
+		<div th:if="${projects.Empty}">
+			<h2>No Trashed Projects Available</h2>
+		</div>
+	</div>
+	<div align="center" class="table-wrapper-scroll-y my-custom-scrollbar">
+		<table class="table table-striped" border="1">
+			<tr class="bg-info" bgcolor="#fff">
+				<th data-column="name" data-order="desc">Name <a
+					th:href="@{'/projects/page/'+ ${currentPage}+ '?sortField=name&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
+						&#9650</a></th>
+				<th data-column="description" data-order="desc">Description</th>
+				<th data-column="dueDate" data-order="desc">Due Date</th>
+				<th data-column="action">Action</th>
+			</tr>
+			<tbody id="myTable">
+				<tr th:each="project: ${projects}">
+					<td><a
+						th:href="@{/projects/{projectId}(projectId=${project.id})}"
+						th:text="${project.getName()}"></a></td>
+					<td th:text="${project.getDescription()}" />
+					<td th:text="${project.dueDate}" />
+					<td align="center"><a th:href="@{'/delete/' + ${project.id}}">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			&nbsp; <span> Total Items: [[${totalItems}]]</span>
+		</div>
+	</div>
+
+</body>
+</html>

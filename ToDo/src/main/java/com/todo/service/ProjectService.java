@@ -21,14 +21,18 @@ public class ProjectService {
 	@Autowired
 	private ProjectRepository projectRepo;
 
-	public Page<Project> findByUserAndProgressAndNameContains(User user,int pageNumber,String sortField,String sortDir,Project.Progress progress, String keyword)
-	{
-		Sort sort=Sort.by(sortField);
-		sort=sortDir.equals("asc") ? sort.ascending():sort.descending();
-		Pageable pageable=PageRequest.of(pageNumber-1,5,sort);
-		return projectRepo.findByUserAndProgressAndTrashFalseAndNameContains(user,progress,keyword,pageable);
+	public Page<Project> findByUserAndProgressAndNameContains(User user, int pageNumber, String sortField,
+			String sortDir, Project.Progress progress, String keyword) {
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		Pageable pageable = PageRequest.of(pageNumber - 1, 5, sort);
+		return projectRepo.findByUserAndProgressAndTrashFalseAndNameContains(user, progress, keyword, pageable);
 	}
-	
+
+	public List<Project> findByUserAndTrashTrue(User user) {
+		return projectRepo.findByUserAndTrashTrue(user);
+	}
+
 	public List<Project> getAllprojects() {
 		List<Project> projects = new ArrayList<>();
 		projectRepo.findAll().forEach(projects::add);
@@ -53,4 +57,5 @@ public class ProjectService {
 		return projectOpt;
 
 	}
+
 }
