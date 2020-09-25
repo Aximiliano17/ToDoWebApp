@@ -105,10 +105,17 @@ public class ProjectController {
 	public String createProject(@AuthenticationPrincipal User user) {
 		return "redirect:/projects/createProject";
 	}
-
 	@PostMapping("/projects/{projectId}")
 	public String modifyProject(@ModelAttribute Project project) {
 		projectService.saveProject(project);
+		return "redirect:/projects";
+	}
+	
+	@PostMapping("/projects/delete")
+	public String deleteProject(@RequestParam Integer projectId) {
+		Project p=projectService.getProject(projectId).get();
+		p.setTrash(true);
+		projectService.saveProject(p);
 		return "redirect:/projects";
 	}
 }
