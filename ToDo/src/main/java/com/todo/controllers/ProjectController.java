@@ -1,6 +1,7 @@
 package com.todo.controllers;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.todo.domain.Project;
 import com.todo.domain.User;
@@ -26,7 +29,8 @@ import com.todo.service.ProjectService;
 /**
  * 
  * This is a Controller for both the projects and project view. One is for
- * displaying multiple projects, another one is for creating and updating a project.
+ * displaying multiple projects, another one is for creating and updating a
+ * project.
  *
  */
 @Controller
@@ -37,42 +41,35 @@ public class ProjectController {
 
 	@GetMapping("/projects")
 	public String getProjects(@AuthenticationPrincipal User user, Model model) {
-		String keyword="";
-		Progress progress=Progress.Incomplete;
-		return listByPage(user,model,1,"name","asc",progress,keyword);
+		String keyword = "";
+		Progress progress = Progress.Incomplete;
+		return listByPage(user, model, 1, "name", "asc", progress, keyword);
 	}
+
 	@GetMapping("/projects/page/{pageNumber}")
-	public String listByPage(@AuthenticationPrincipal User user,Model model,
-			@PathVariable("pageNumber") int currentPage,
-			@Param("sortField") String sortField,
-			@Param("sortDir") String sortDir,
-			@Param("progress")Progress progress,
-			@Param("keyword")String keyword)
-	{
-		Page<Project> page= projectService.findByUserAndProgressAndNameContains(user,currentPage,sortField,sortDir,progress,keyword);
-		List<Project> projects= page.getContent();
-		long totalItems=page.getTotalElements();
-		int totalPages=page.getTotalPages();
+	public String listByPage(@AuthenticationPrincipal User user, Model model,
+			@PathVariable("pageNumber") int currentPage, @Param("sortField") String sortField,
+			@Param("sortDir") String sortDir, @Param("progress") Progress progress, @Param("keyword") String keyword) {
+		Page<Project> page = projectService.findByUserAndProgressAndNameContains(user, currentPage, sortField, sortDir,
+				progress, keyword);
+		List<Project> projects = page.getContent();
+		long totalItems = page.getTotalElements();
+		int totalPages = page.getTotalPages();
 		model.addAttribute("projects", projects);
-		model.addAttribute("totalItems",totalItems);
-		model.addAttribute("totalPages",totalPages);
-		model.addAttribute("currentPage",currentPage);
-		model.addAttribute("sortField",sortField);
-		model.addAttribute("sortDir",sortDir);
-		model.addAttribute("progress",progress);
-		model.addAttribute("keyword",keyword);
-		String reverseSortDir=sortDir.equals("asc")?"desc":"asc";
-		model.addAttribute("reverseSortDir",reverseSortDir);
+		model.addAttribute("totalItems", totalItems);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("progress", progress);
+		model.addAttribute("keyword", keyword);
+		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+		model.addAttribute("reverseSortDir", reverseSortDir);
 		return "projects.html";
 	}
 
 	@GetMapping("/projects/createProject")
-	public String getProject(ModelMap model, HttpServletResponse response, @AuthenticationPrincipal User user)
-			throws Exception {
-
-		Project project = new Project();
-		project.setUser(user);
-		model.put("project", project);
+	public String getProject() {
 		return "projectCreation.html";
 	}
 
@@ -92,12 +89,19 @@ public class ProjectController {
 	}
 
 	@PostMapping("/projects/createProject")
-	public String saveProject(@ModelAttribute Project project) {
-		projectService.addProject(project);
+	public String saveProject(@RequestParam String name, @RequestParam String description,
+			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dueDate,
+			@AuthenticationPrincipal User user) {
+		Project p = new Project();
+		p.setUser(user);
+		p.setName(name);
+		p.setDescription(description);
+		p.setDueDate(dueDate);
+		projectService.addProject(p);
 		return "redirect:/projects";
 	}
 
-	@PostMapping(value={"/projects", "/projects/page/{pageNumber}"})
+	@PostMapping(value = { "/projects", "/projects/page/{pageNumber}" })
 	public String createProject(@AuthenticationPrincipal User user) {
 		return "redirect:/projects/createProject";
 	}
