@@ -26,6 +26,7 @@
 						th:value="${_csrf.token}" /> <input type="hidden"
 						th:field="${project.user}" /> <input type="hidden"
 						th:field="${project.id}" />
+						
 					<div class="form-group row">
 						<label for="name" class="col-md-1 col-form-label">Name:</label>
 						<div class="col-md-9">
@@ -33,6 +34,7 @@
 								maxlength="40" name="name" />
 						</div>
 					</div>
+					
 					<div class="form-group row">
 						<label class="col-md-2 col-form-label">Description:</label>
 					</div>
@@ -40,11 +42,31 @@
 						<textarea class="col-md-10" rows="4" maxlength="200"
 							th:field="${project.description}"></textarea>
 					</div>
+					
+					<div class="form-group row">
+						<label for="dueDate" class="col-md-2 col-form-label">Due
+							Date:</label>
+						<div class="col-md-3">
+							<input type="date" th:field="*{dueDate}" class="form-control"
+								maxlength="40" name="dueDate" />
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label for="progress" class="col-md-2 col-form-label">Progress:</label>
+						<div class="col-md-3">
+							<select name="progress">
+								<option
+									th:each="p : ${T(com.todo.domain.Project.Progress).values()}"
+									th:value="${p}" th:text="${p}"></option>
+							</select>
+						</div>
+					</div>
 					<button type="button" id="return" class="btn btn-primary">Back</button>
 					<button type="submit" class="btn btn-primary">Save Project</button>
 				</form>
 				<form action="#" th:action="@{/projects/delete}" method="POST">
-					 <input type="hidden" name="projectId" th:value="${project.id}">
+					<input type="hidden" name="projectId" th:value="${project.id}">
 					<button type="submit" class="btn btn-danger float-right">Delete</button>
 				</form>
 			</div>
