@@ -9,12 +9,12 @@
 </head>
 <body>
 	<script th:replace="fragments/header::header2">
+		
 	</script>
 	<script type="text/javascript">
-	function clearFilter()
-	{
-		window.location="/projects";
-	}
+		function clearFilter() {
+			window.location = "/projects";
+		}
 	</script>
 	<div style="margin-top: 2em;">
 		<div th:if="${!projects.Empty}">
@@ -24,36 +24,33 @@
 			<h2>No Projects Available</h2>
 		</div>
 	</div>
-
-	<div align="center" >
-		<div align="right" style="margin-right: 5em">
-			<form th:action="@{/projects/page/1}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}">
-				 	<label >Filter:</label> <select
-						name="progress">
-						<option th:each="p : ${T(com.todo.domain.Project.Progress).values()}"
-							th:value="${p}" th:text="${p}" th:selected="${p.equals(progress)}"  ></option>
-					</select>
-					&nbsp;
-				<label>Search:</label>
-				<input type="hidden" name="sortField" th:value="${sortField}"/>
-				<input type="hidden" name="sortDir" th:value="${sortDir}"/>
-				 <input type="text" name="keyword"
-					th:value="${keyword}" /> <input type="submit"
-					value="Search" />
-					<input type="button" value="Clear" onClick="clearFilter()" />
-			</form>
-		</div>
-		<table class="table table-striped" border="1">
+	<div align="right" style="margin-right: 5em">
+		<form
+			th:action="@{/projects/page/1}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}">
+			<label>Filter:</label> <select name="progress">
+				<option
+					th:each="p : ${T(com.todo.domain.Project.Progress).values()}"
+					th:value="${p}" th:text="${p}" th:selected="${p.equals(progress)}"></option>
+			</select> &nbsp; <label>Search:</label> <input type="hidden" name="sortField"
+				th:value="${sortField}" /> <input type="hidden" name="sortDir"
+				th:value="${sortDir}" /> <input type="text" name="keyword"
+				th:value="${keyword}" /> <input type="submit" value="Search" /> <input
+				type="button" value="Clear" onClick="clearFilter()" />
+		</form>
+	</div>
+	<div align="center" class="table-responsive">
+		<table class="table" border="1">
 			<tr class="bg-info" bgcolor="#fff">
 				<th data-column="name" data-order="desc">Name <a
 					th:href="@{'/projects/page/'+ ${currentPage}+ '?sortField=name&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
 						&#9650</a></th>
 				<th data-column="description" data-order="desc">Description</th>
 				<th data-column="progress" data-order="desc">Progress</th>
-				<th data-column="dueDate" data-order="desc">Due Date  <a
+				<th class="text-nowrap" data-column="dueDate" data-order="desc">Due
+					Date <a
 					th:href="@{'/projects/page/'+ ${currentPage}+ '?sortField=dueDate&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
-						&#9650</a></th>
-				<th data-column="action">Action</th>
+						&#9650</a>
+				</th>
 			</tr>
 			<tbody id="myTable">
 				<tr th:each="project: ${projects}"
@@ -64,28 +61,25 @@
 					<td th:text="${project.getDescription()}" />
 					<td th:text="${project.progress}" />
 					<td th:text="${project.dueDate}" />
-					<td align="center"><a th:href="@{'/delete/' + ${project.id}}">Delete</a>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<div>
-		&nbsp;
-		<span th:unless="${totalPages<1}">  Total Items: [[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]] </span>
-			<span th:unless="${totalPages>0}">  Total Items: [[${totalItems}]] - Page [[${0}]] of [[${totalPages}]] </span>
-		&nbsp; 
-		<a th:if="${currentPage>1}"
+			&nbsp; <span th:unless="${totalPages<1}"> Total Items:
+				[[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]] </span> <span
+				th:unless="${totalPages>0}"> Total Items: [[${totalItems}]] -
+				Page [[${0}]] of [[${totalPages}]] </span> &nbsp; <a
+				th:if="${currentPage>1}"
 				th:href="@{/projects/page/1}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir} + '&progress=' + ${progress} +'&keyword='+ ${keyword}">First</a>
 			<span th:unless="${currentPage>1}">First</span>- <a
 				th:if="${currentPage>1}"
 				th:href="@{'/projects/page/'+${currentPage-1}}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir} + '&progress=' + ${progress} +'&keyword='+ ${keyword}">Previous</a>
-			<span th:unless="${currentPage>1}">Previous</span>-
-			 <span
-				th:each="i: ${#numbers.sequence(1,totalPages)}" th:if="${totalPages>0}"> <a
-				th:if="${i != currentPage}"
+			<span th:unless="${currentPage>1}">Previous</span>- <span
+				th:each="i: ${#numbers.sequence(1,totalPages)}"
+				th:if="${totalPages>0}"> <a th:if="${i != currentPage}"
 				th:href="@{'/projects/page/'+${i}} +'?sortField=' +${sortField} +'&sortDir=' + ${sortDir} + '&progress=' + ${progress} +'&keyword='+ ${keyword}">[[${i}]]
-			</a> 
-			<span th:unless="${i != currentPage}">[[${i}]] </span> &nbsp; &nbsp;
+			</a> <span th:unless="${i != currentPage}">[[${i}]] </span> &nbsp; &nbsp;
 			</span> <a th:if="${currentPage<totalPages}"
 				th:href="@{'/projects/page/'+${currentPage+1}}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir}+ '&progress=' + ${progress} +'&keyword='+ ${keyword}">Next</a>
 			<span th:unless="${currentPage<totalPages}">Next</span>- <a
