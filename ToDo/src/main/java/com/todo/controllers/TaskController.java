@@ -1,10 +1,13 @@
 package com.todo.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -14,9 +17,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import com.todo.domain.Task;
 import com.todo.domain.Task.Difficulty;
 import com.todo.domain.User;
+import com.todo.domain.Project;
+import com.todo.domain.Project.Progress;
 import com.todo.service.TaskService;
 
 /**
@@ -33,7 +39,31 @@ public class TaskController {
 
 	@GetMapping("/tasks")
 	public String getTasks(@AuthenticationPrincipal User user, Model model) {
-		model.addAttribute("tasks", taskService.getUserTasks(user));
+		String keyword = "";
+		Progress progress = Progress.Incomplete;
+		Project project=null;
+		return listByPage(user,project, model, 1, "name", "asc", progress, keyword);
+	}
+
+	@GetMapping("/tasks/page/{pageNumber}")
+	public String listByPage(@AuthenticationPrincipal User user,Project project, Model model,
+			@PathVariable("pageNumber") int currentPage, @Param("sortField") String sortField,
+			@Param("sortDir") String sortDir, @Param("progress") Progress progress, @Param("keyword") String keyword) {
+		Page<Task> page = taskService.findByUserAndProjectAndProgressAndNameContains(user,project, currentPage, sortField, sortDir,
+				progress, keyword);
+		List<Task> tasks = page.getContent();
+		long totalItems = page.getTotalElements();
+		int totalPages = page.getTotalPages();
+		model.addAttribute("tasks", tasks);
+		model.addAttribute("totalItems", totalItems);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+		model.addAttribute("progress", progress);
+		model.addAttribute("keyword", keyword);
+		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+		model.addAttribute("reverseSortDir", reverseSortDir);
 		return "tasks.html";
 	}
 

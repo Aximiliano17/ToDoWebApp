@@ -18,19 +18,20 @@ public enum Difficulty
 {
 	EASY,MEDIUM,HARD
 }
-public enum Progression
-{
-	UNSTARTED,INPROGRESS,FINISHED
-}
+
 private Integer id;
 private String name;
-private String comment;
+private String description;
 private Priority priority;
 private Difficulty difficulty;
 private User user;
-private Progression progress;
+private Project.Progress progress;
 private Project project;
 
+public Task()
+{
+	progress=Project.Progress.Incomplete;
+}
 
 //Getters and Setters
 @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -46,11 +47,11 @@ public String getName() {
 public void setName(String name) {
 	this.name = name;
 }
-public String getComment() {
-	return comment;
+public String getDescription() {
+	return description;
 }
-public void setComment(String comment) {
-	this.comment = comment;
+public void setDescription(String description) {
+	this.description = description;
 }
 @ManyToOne
 public User getUser() {
@@ -71,10 +72,10 @@ public Difficulty getDifficulty() {
 public void setDifficulty(Difficulty difficulty) {
 	this.difficulty = difficulty;
 }
-public Progression getProgress() {
+public Project.Progress getProgress() {
 	return progress;
 }
-public void setProgress(Progression progress) {
+public void setProgress(Project.Progress progress) {
 	this.progress = progress;
 }
 @ManyToOne
