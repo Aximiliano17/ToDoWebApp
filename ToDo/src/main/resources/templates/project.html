@@ -31,7 +31,7 @@
 						<label for="name" class="col-md-1 col-form-label">Name:</label>
 						<div class="col-md-9">
 							<input type="text" th:field="*{name}" class="form-control"
-								maxlength="40" name="name" />
+								maxlength="40" name="name" required />
 						</div>
 					</div>
 					
@@ -40,7 +40,7 @@
 					</div>
 					<div>
 						<textarea class="col-md-10" rows="4" maxlength="200"
-							th:field="${project.description}"></textarea>
+							th:field="${project.description}" required></textarea>
 					</div>
 					
 					<div class="form-group row">
@@ -48,7 +48,7 @@
 							Date:</label>
 						<div class="col-md-3">
 							<input type="date" th:field="*{dueDate}" class="form-control"
-								maxlength="40" name="dueDate" />
+								maxlength="40" name="dueDate" th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
 						</div>
 					</div>
 					
@@ -66,7 +66,7 @@
 					<button type="submit" class="btn btn-primary">Save Project</button>
 				</form>
 				<form action="#" th:action="@{/projects/delete}" method="POST">
-					<input type="hidden" name="projectId" th:value="${project.id}">
+					<input type="hidden" name="projectId" th:value="${project.id}" >
 					<button type="submit" class="btn btn-danger float-right">Delete</button>
 				</form>
 			</div>

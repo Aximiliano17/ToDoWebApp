@@ -32,7 +32,7 @@
 						<label for="name" class="col-md-1 col-form-label">Name:</label>
 						<div class="col-md-9">
 							<input type="text" th:value="${name}" class="form-control"
-								maxlength="40" name="name" />
+								maxlength="40" name="name" required />
 						</div>
 					</div>
 					<div class="form-group row">
@@ -40,11 +40,11 @@
 					</div>
 					<div>
 						<textarea class="col-md-10" rows="4" maxlength="200"
-							th:value="${description}" name="description"></textarea>
+							th:value="${description}" name="description" required></textarea>
 					</div>
 					<div class="form-group row">
 						<label class="col-md-2 col-form-label">Due Date:</label> <input
-							type="date" id="dueDate" th:value="${dueDate}" name="dueDate" />
+							type="date" id="dueDate" th:value="${dueDate}" name="dueDate" th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
 					</div>
 
 					<button type="button" id="return" class="btn btn-primary">Back</button>
