@@ -1,6 +1,7 @@
 package com.todo.controllers;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ import com.todo.domain.Task.Difficulty;
 import com.todo.domain.User;
 import com.todo.domain.Project;
 import com.todo.domain.Project.Progress;
+import com.todo.service.ProjectService;
 import com.todo.service.TaskService;
 
 /**
@@ -33,27 +35,36 @@ import com.todo.service.TaskService;
  */
 @Controller
 public class TaskController {
-	
+
 	@Autowired
 	private TaskService taskService;
+	@Autowired
+	private ProjectService projectService;
 
 	@GetMapping("/tasks")
 	public String getTasks(@AuthenticationPrincipal User user, Model model) {
 		String keyword = "";
 		Progress progress = Progress.Incomplete;
-		Project project=null;
-		return listByPage(user,project, model, 1, "name", "asc", progress, keyword);
+		Project project = null;
+
+		return listByPage(user, model, 1, project, "name", "asc", progress, keyword);
 	}
 
 	@GetMapping("/tasks/page/{pageNumber}")
-	public String listByPage(@AuthenticationPrincipal User user,Project project, Model model,
-			@PathVariable("pageNumber") int currentPage, @Param("sortField") String sortField,
-			@Param("sortDir") String sortDir, @Param("progress") Progress progress, @Param("keyword") String keyword) {
-		Page<Task> page = taskService.findByUserAndProjectAndProgressAndNameContains(user,project, currentPage, sortField, sortDir,
-				progress, keyword);
+	public String listByPage(@AuthenticationPrincipal User user, Model model,
+			@PathVariable("pageNumber") int currentPage, @Param("project") Project project,
+			@Param("sortField") String sortField, @Param("sortDir") String sortDir,
+			@Param("progress") Progress progress, @Param("keyword") String keyword) {
+		
+		List<Project> projects = projectService.findByUserAndProgress(user, progress, "name");
+		
+		Page<Task> page = taskService.findByUserAndProjectAndProgressAndNameContains(user, project, currentPage,
+				sortField, sortDir, progress, keyword);
+		
 		List<Task> tasks = page.getContent();
 		long totalItems = page.getTotalElements();
 		int totalPages = page.getTotalPages();
+		
 		model.addAttribute("tasks", tasks);
 		model.addAttribute("totalItems", totalItems);
 		model.addAttribute("totalPages", totalPages);
@@ -62,6 +73,8 @@ public class TaskController {
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("progress", progress);
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("project", project);
+		model.addAttribute("projects", projects);
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		return "tasks.html";
@@ -78,17 +91,19 @@ public class TaskController {
 		model.put("priorities", Difficulty.values());
 		return "taskCreation.html";
 	}
+
 	@GetMapping("/tasks/{taskId}")
-	public String getTask(@PathVariable Integer taskId, ModelMap model, HttpServletResponse response) throws IOException {
+	public String getTask(@PathVariable Integer taskId, ModelMap model, HttpServletResponse response)
+			throws IOException {
 		Optional<Task> taskOpt = taskService.getTask(taskId);
-	    
-	    if (taskOpt.isPresent()) {
-	      Task task = taskOpt.get();
-	      model.put("task", task);
-	    } else {
-	      response.sendError(HttpStatus.NOT_FOUND.value(), "Task with id " + taskId + " was not found");
-	      return "task";
-	    }
+
+		if (taskOpt.isPresent()) {
+			Task task = taskOpt.get();
+			model.put("task", task);
+		} else {
+			response.sendError(HttpStatus.NOT_FOUND.value(), "Task with id " + taskId + " was not found");
+			return "task";
+		}
 		return "task";
 	}
 
@@ -97,10 +112,12 @@ public class TaskController {
 		taskService.addTask(task);
 		return "redirect:/tasks";
 	}
+
 	@PostMapping("/tasks")
 	public String createTask(@AuthenticationPrincipal User user) {
 		return "redirect:/tasks/createTask";
 	}
+
 	@PostMapping("/tasks/{taskId}")
 	public String modifyTask(@ModelAttribute Task task) {
 		taskService.saveTask(task);
