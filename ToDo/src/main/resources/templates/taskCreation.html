@@ -33,9 +33,7 @@
 						<div class="form-group row">
 							<label for="name" class="col-md-1 col-form-label">Name:</label>
 							<div class="col-md-9">
-								<input type="text" th:field="*{name}" class="form-control" maxlength="40" name="name"/> 
-								
-			<!-- <p  th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Required</p> -->		
+								<input type="text" th:field="*{name}" class="form-control" maxlength="40" name="name"/> 	
 							</div>
 						</div>
 					
@@ -44,7 +42,7 @@
 						<label class="col-md-2 col-form-label">Description:</label>
 					</div>
 
-					<textarea class="col-md-10" rows="4" maxlength="200" th:field="${task.comment}"></textarea>
+					<textarea class="col-md-10" rows="4" maxlength="200" th:field="${task.description}"></textarea>
 
 					<div class="form-group row">
 						<label class="col-md-2 col-form-label">Priority:</label> <select

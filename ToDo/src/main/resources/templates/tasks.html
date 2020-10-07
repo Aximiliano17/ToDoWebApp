@@ -27,11 +27,11 @@
 	<div align="right" style="margin-right: 5em">
 		<form
 			th:action="@{/tasks/page/1} + '?project=' + ${project} +
-			'&sortField=' + ${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}">
+			'&sortField=' + ${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}" th:object="${project}">
 
 			<label>Project:</label> <select name="project">
-			<option  th:value=null th:text=null th:selected="${project==null}"></option>
-				<option th:each="p : ${projects}" th:value="${p}" th:text="${p}"></option>
+			<option  th:value="${project}" th:text=null th:selected="${project==null}"></option>
+				<option th:each="p : ${projects}" th:value="${p.getId()}" th:text="${p}"></option>
 			</select> &nbsp;
 			<input type="hidden" name="progress" th:value="${progress}" /> <input
 				type="text" name="keyword" th:value="${keyword}" /> <label>Search:</label>

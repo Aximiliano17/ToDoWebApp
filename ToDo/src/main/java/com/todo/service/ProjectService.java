@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.todo.domain.Project;
+import com.todo.domain.Project.Progress;
 import com.todo.domain.User;
 import com.todo.repository.ProjectRepository;
 
@@ -31,6 +32,11 @@ public class ProjectService {
 
 	public List<Project> findByUserAndTrashTrue(User user) {
 		return projectRepo.findByUserAndTrashTrue(user);
+	}
+	public List<Project> findByUserAndProgressAndTrashFalse(User user, Progress progress, String string) {
+		Sort sort = Sort.by(string);
+		sort = sort.ascending();
+		return projectRepo.findByUserAndProgressAndTrashFalse(user,progress,sort);
 	}
 
 	public List<Project> getAllprojects() {
@@ -57,5 +63,4 @@ public class ProjectService {
 		return projectOpt;
 
 	}
-
 }

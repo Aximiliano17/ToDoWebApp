@@ -41,7 +41,6 @@ public class Project {
 	public Project()
 	{
 		progress=Progress.Incomplete;
-		isTrash=true;
 		dateCreated= LocalDate.now();
 	}
 
@@ -112,5 +111,10 @@ public class Project {
 
 	public void setTrash(boolean isTrash) {
 		this.isTrash = isTrash;
+	}
+	
+	public String toString()
+	{
+		return this.name;
 	}
 }

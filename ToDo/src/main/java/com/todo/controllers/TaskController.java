@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.todo.domain.Task;
 import com.todo.domain.Task.Difficulty;
+import com.todo.domain.Task.Priority;
 import com.todo.domain.User;
 import com.todo.domain.Project;
 import com.todo.domain.Project.Progress;
@@ -52,11 +54,11 @@ public class TaskController {
 
 	@GetMapping("/tasks/page/{pageNumber}")
 	public String listByPage(@AuthenticationPrincipal User user, Model model,
-			@PathVariable("pageNumber") int currentPage, @Param("project") Project project,
+			@PathVariable("pageNumber") int currentPage, @RequestParam("project") Project project,
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir,
 			@Param("progress") Progress progress, @Param("keyword") String keyword) {
 		
-		List<Project> projects = projectService.findByUserAndProgress(user, progress, "name");
+		List<Project> projects = projectService.findByUserAndProgressAndTrashFalse(user, progress, "name");
 		
 		Page<Task> page = taskService.findByUserAndProjectAndProgressAndNameContains(user, project, currentPage,
 				sortField, sortDir, progress, keyword);
@@ -88,7 +90,7 @@ public class TaskController {
 		task.setUser(user);
 		model.put("task", task);
 		model.put("difficulties", Difficulty.values());
-		model.put("priorities", Difficulty.values());
+		model.put("priorities", Priority.values());
 		return "taskCreation.html";
 	}
 
