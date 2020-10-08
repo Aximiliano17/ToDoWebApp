@@ -63,6 +63,5 @@ public class ProjectService {
 		Optional<Project> projectOpt = projectRepo.findById(id);
 		return projectOpt;
 
-		
 	}
 }
