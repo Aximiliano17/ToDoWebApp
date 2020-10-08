@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.todo.domain.Project;
 import com.todo.domain.Project.Progress;
+import com.todo.domain.Task;
 import com.todo.domain.User;
 import com.todo.repository.ProjectRepository;
 

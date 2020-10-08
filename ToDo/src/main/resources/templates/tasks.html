@@ -17,24 +17,26 @@
 		}
 	</script>
 	<div style="margin-top: 2em;">
-		<div th:if="${!tasks.Empty}">
-			<h2>List of Tasks</h2>
+		<div th:if="${project==null}">
+			<h2>No Project Tasks</h2>
 		</div>
-		<div th:if="${tasks.Empty}">
-			<h2>No Tasks Available</h2>
+		<div th:if="${project!=null}">
+			<h2>[[${project.getName()}]] Tasks</h2>
 		</div>
 	</div>
 	<div align="right" style="margin-right: 5em">
 		<form
 			th:action="@{/tasks/page/1} + '?project=' + ${project} +
-			'&sortField=' + ${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}" th:object="${project}">
+			'&sortField=' + ${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}"
+			th:object="${project}">
 
 			<label>Project:</label> <select name="project">
-			<option  th:value="${project}" th:text=null th:selected="${project==null}"></option>
-				<option th:each="p : ${projects}" th:value="${p.getId()}" th:text="${p}"></option>
-			</select> &nbsp;
-			<input type="hidden" name="progress" th:value="${progress}" /> <input
-				type="text" name="keyword" th:value="${keyword}" /> <label>Search:</label>
+				<option th:value=null th:text=null
+					th:selected="${project==null}"></option>
+				<option th:each="p : ${projects}" th:value="${p.getId()}"
+					th:text="${p}"></option>
+			</select> &nbsp; <input type="hidden" name="progress" th:value="${progress}" />
+			<input type="text" name="keyword" th:value="${keyword}" /> <label>Search:</label>
 			<input type="hidden" name="sortField" th:value="${sortField}" /> <input
 				type="hidden" name="sortDir" th:value="${sortDir}" /> <input
 				type="submit" value="Search" /> <input type="button" value="Clear"
@@ -84,10 +86,12 @@
 
 		</div>
 	</div>
-	<form action="" method="post">
+	<form th:action="@{/tasks/createTask} + '?project=' + ${project}" >
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}" />
-		<button class="submit btn btn-primary" type="submit">Create
+			<input th:if="${project==null}" type="hidden" name="project" th:value="${project}" />
+			<input th:if="${project!=null}" type="hidden" name="project" th:value="${project.getId()}" />
+		<button class="submit btn btn-primary" type="submit">Add
 			Task</button>
 	</form>
 </body>

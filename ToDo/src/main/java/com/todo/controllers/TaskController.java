@@ -83,14 +83,16 @@ public class TaskController {
 	}
 
 	@GetMapping("/tasks/createTask")
-	public String getTask(ModelMap model, HttpServletResponse response, @AuthenticationPrincipal User user)
+	public String createTask(Model model, HttpServletResponse response, @AuthenticationPrincipal User user, @RequestParam Project project)
 			throws Exception {
 
 		Task task = new Task();
 		task.setUser(user);
-		model.put("task", task);
-		model.put("difficulties", Difficulty.values());
-		model.put("priorities", Priority.values());
+		model.addAttribute("task", task);
+		model.addAttribute("difficulties", Difficulty.values());
+		model.addAttribute("priorities", Priority.values());
+		model.addAttribute("project", project);
+		System.out.println(project);
 		return "taskCreation.html";
 	}
 
@@ -110,14 +112,10 @@ public class TaskController {
 	}
 
 	@PostMapping("/tasks/createTask")
-	public String saveTask(@ModelAttribute Task task) {
-		taskService.addTask(task);
+	public String saveTask(@ModelAttribute Task task, @RequestParam Project project) {
+		System.out.println(project);
+		taskService.addTask(task, project);
 		return "redirect:/tasks";
-	}
-
-	@PostMapping("/tasks")
-	public String createTask(@AuthenticationPrincipal User user) {
-		return "redirect:/tasks/createTask";
 	}
 
 	@PostMapping("/tasks/{taskId}")
