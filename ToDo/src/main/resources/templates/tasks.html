@@ -31,8 +31,6 @@
 			th:object="${project}">
 
 			<label>Project:</label> <select name="project">
-				<option th:value=null th:text=null
-					th:selected="${project==null}"></option>
 				<option th:each="p : ${projects}" th:value="${p.getId()}"
 					th:text="${p}" th:selected="${p==project}"></option>
 			</select> &nbsp; <input type="hidden" name="progress" th:value="${progress}" />
@@ -89,7 +87,7 @@
 	<form th:action="@{/tasks/createTask} + '?project=' + ${project}" >
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}" />
-			<input th:if="${project==null}" type="hidden" name="project" th:value=null />
+			<input th:if="${project==null}" type="hidden" name="project" th:value="${project}" />
 			<input th:if="${project!=null}" type="hidden" name="project" th:value="${project.getId()}" />
 		<button class="submit btn btn-primary" type="submit">Add
 			Task</button>

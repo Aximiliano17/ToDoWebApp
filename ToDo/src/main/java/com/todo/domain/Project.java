@@ -11,12 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
-
-
 
 @Entity
 public class Project {

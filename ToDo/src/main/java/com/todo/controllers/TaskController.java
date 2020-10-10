@@ -47,6 +47,7 @@ public class TaskController {
 	public String getTasks(@AuthenticationPrincipal User user, Model model) {
 		String keyword = "";
 		Progress progress = Progress.Incomplete;
+
 		Project project = null;
 
 		return listByPage(user, model, 1, project, "name", "asc", progress, keyword);
@@ -54,19 +55,22 @@ public class TaskController {
 
 	@GetMapping("/tasks/page/{pageNumber}")
 	public String listByPage(@AuthenticationPrincipal User user, Model model,
-			@PathVariable("pageNumber") int currentPage, @RequestParam("project") Project project,
-			@Param("sortField") String sortField, @Param("sortDir") String sortDir,
-			@Param("progress") Progress progress, @Param("keyword") String keyword) {
-		
+			@PathVariable("pageNumber") int currentPage,
+			@RequestParam(value = "project", required = false) Project project, @Param("sortField") String sortField,
+			@Param("sortDir") String sortDir, @Param("progress") Progress progress, @Param("keyword") String keyword) {
+
 		List<Project> projects = projectService.findByUserAndProgressAndTrashFalse(user, progress, "name");
-		
+
+		if (project == null)
+			project = projects.get(0);
+
 		Page<Task> page = taskService.findByUserAndProjectAndProgressAndNameContains(user, project, currentPage,
 				sortField, sortDir, progress, keyword);
-		
+
 		List<Task> tasks = page.getContent();
 		long totalItems = page.getTotalElements();
 		int totalPages = page.getTotalPages();
-		
+
 		model.addAttribute("tasks", tasks);
 		model.addAttribute("totalItems", totalItems);
 		model.addAttribute("totalPages", totalPages);
@@ -83,8 +87,8 @@ public class TaskController {
 	}
 
 	@GetMapping("/tasks/createTask")
-	public String createTask(Model model, HttpServletResponse response, @AuthenticationPrincipal User user, @RequestParam Project project)
-			throws Exception {
+	public String createTask(Model model, HttpServletResponse response, @AuthenticationPrincipal User user,
+			@RequestParam Project project) throws Exception {
 
 		Task task = new Task();
 		task.setUser(user);

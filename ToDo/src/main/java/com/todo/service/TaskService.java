@@ -22,8 +22,9 @@ public class TaskService {
 	@Autowired
 	private TaskRepository taskRepo;
 
-	public Page<Task> findByUserAndProjectAndProgressAndNameContains(User user, Project project, int pageNumber,
-			String sortField, String sortDir, Project.Progress progress, String keyword) {
+	public Page<Task> findByUserAndProjectAndProgressAndNameContains(User user, Project project,
+			int pageNumber, String sortField, String sortDir, Project.Progress progress, String keyword) {
+
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
