@@ -27,7 +27,7 @@ public class TaskService {
 
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 5, sort);
 		return taskRepo.findByUserAndProjectAndProgressAndNameContains(user, project, progress, keyword, pageable);
 	}
 
