@@ -93,10 +93,7 @@ public class TaskController {
 		Task task = new Task();
 		task.setUser(user);
 		model.addAttribute("task", task);
-		model.addAttribute("difficulties", Difficulty.values());
-		model.addAttribute("priorities", Priority.values());
 		model.addAttribute("project", project);
-		System.out.println(project);
 		return "taskCreation.html";
 	}
 
@@ -116,10 +113,10 @@ public class TaskController {
 	}
 
 	@PostMapping("/tasks/createTask")
-	public String saveTask(@ModelAttribute Task task, @RequestParam Project project) {
+	public String saveTask(Model model,@ModelAttribute Task task, @RequestParam Project project) {
 		System.out.println(project);
 		taskService.addTask(task, project);
-		return "redirect:/tasks";
+		return listByPage(task.getUser(),model, 1, project, "name","asc", Progress.Incomplete, "");
 	}
 
 	@PostMapping("/tasks/{taskId}")
