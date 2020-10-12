@@ -59,7 +59,7 @@ public class TaskController {
 			@RequestParam(value = "project", required = false) Project project, @Param("sortField") String sortField,
 			@Param("sortDir") String sortDir, @Param("progress") Progress progress, @Param("keyword") String keyword) {
 
-		List<Project> projects = projectService.findByUserAndProgressAndTrashFalse(user, progress, "name");
+		List<Project> projects = projectService.findByUserAndProgressAndTrashFalse(user, Progress.Incomplete, "name");
 
 		if (project == null)
 			project = projects.get(0);
