@@ -12,13 +12,12 @@
 			window.location.href = "/projects";
 		});
 	});
-	function Delete(id){
-		window.location.href = "/project/delete?project="+id;
+	function Delete(id) {
+		window.location.href = "/project/delete?project=" + id;
 	}
-	function ModifyCompletion(id){
-		window.location.href = "/project/modify?project="+id;
+	function ModifyCompletion(id) {
+		window.location.href = "/project/modify?project=" + id;
 	}
-	
 </script>
 </head>
 <body>
@@ -32,11 +31,10 @@
 					<input type="hidden" th:name="${_csrf.parameterName}"
 						th:value="${_csrf.token}" /> <input type="hidden"
 						th:field="${project.user}" /> <input type="hidden"
-						th:field="${project.id}" />
-						<input type="hidden"
+						th:field="${project.id}" /> <input type="hidden"
 						th:field="${project.progress}" />
-						
-					
+
+
 					<div class="form-group row">
 						<label for="name" class="col-md-1 col-form-label">Name:</label>
 						<div class="col-md-9">
@@ -44,7 +42,7 @@
 								maxlength="40" name="name" required />
 						</div>
 					</div>
-					
+
 					<div class="form-group row">
 						<label class="col-md-2 col-form-label">Description:</label>
 					</div>
@@ -52,23 +50,27 @@
 						<textarea class="col-md-10" rows="4" maxlength="200"
 							th:field="${project.description}" required></textarea>
 					</div>
-					
+
 					<div class="form-group row">
 						<label for="dueDate" class="col-md-2 col-form-label">Due
 							Date:</label>
 						<div class="col-md-3">
 							<input type="date" th:field="*{dueDate}" class="form-control"
-								maxlength="40" name="dueDate" th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
+								maxlength="40" name="dueDate"
+								th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
 						</div>
 					</div>
-					
+
 					<button type="button" id="return" class="btn btn-primary">Back</button>
 					<button type="submit" class="btn btn-primary">Save Project</button>
 					<div class="float-right">
-					<button type="button"  class="btn btn-warning"  th:onclick="'javascript:ModifyCompletion(' + ${project.getId()} + ')'">
-					Change Complete/Incomplete</button>
-					
-					<button type="button" class="btn btn-danger" th:onclick="'javascript:Delete(' + ${project.getId()} + ')'">Trash</button>
+						<button type="button" class="btn"
+							th:classappend="${project.progress}==${T(com.todo.domain.Project.Progress).Completed} ? btn-warning:btn-success"
+							th:onclick="'javascript:ModifyCompletion(' + ${project.getId()} + ')'"
+							th:text="${project.progress}==${T(com.todo.domain.Project.Progress).Completed} ? Incomplete:Complete">
+						</button>
+						<button type="button" class="btn btn-danger"
+							th:onclick="'javascript:Delete(' + ${project.getId()} + ')'">Trash</button>
 					</div>
 				</form>
 			</div>
