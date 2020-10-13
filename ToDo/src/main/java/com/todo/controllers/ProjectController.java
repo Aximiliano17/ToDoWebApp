@@ -41,9 +41,8 @@ public class ProjectController {
 
 	@GetMapping("/projects")
 	public String getProjects(@AuthenticationPrincipal User user, Model model) {
-		String keyword = "";
-		Progress progress = Progress.Incomplete;
-		return listByPage(user, model, 1, "name", "asc", progress, keyword);
+	
+		return listByPage(user, model, 1, "name", "asc", Progress.Incomplete, "");
 	}
 
 	@GetMapping("/projects/page/{pageNumber}")
@@ -73,19 +72,33 @@ public class ProjectController {
 		return "projectCreation.html";
 	}
 
-	@GetMapping("/projects/{projectId}")
-	public String getProject(@PathVariable Integer projectId, ModelMap model, HttpServletResponse response)
+	@GetMapping("/projects/{project}")
+	public String getProject(@PathVariable Project project, Model model, HttpServletResponse response)
 			throws IOException {
-		Optional<Project> projectOpt = projectService.getProject(projectId);
-
-		if (projectOpt.isPresent()) {
-			Project project = projectOpt.get();
-			model.put("project", project);
-		} else {
-			response.sendError(HttpStatus.NOT_FOUND.value(), "Project with id " + projectId + " was not found");
-			return "project";
-		}
+			model.addAttribute("project", project);
+			model.addAttribute("progress", project.getProgress());
 		return "project";
+	}
+	
+	@GetMapping("/project/delete")
+	public String deleteProject(@AuthenticationPrincipal User user, Model model, @RequestParam("project") Project project )
+	{
+		project.setTrash(true);
+		projectService.saveProject(project);
+		return getProjects(user, model);
+	}
+	@GetMapping("/project/modify")
+	public String modifyProject(@AuthenticationPrincipal User user, Model model, @RequestParam("project") Project project )
+	{
+		if(project.getProgress()==Progress.Completed)
+		{
+			project.setProgress(Progress.Incomplete);
+		}
+		else
+			project.setProgress(Progress.Completed);
+		
+		projectService.saveProject(project);
+		return getProjects(user, model);
 	}
 
 	@PostMapping("/projects/createProject")

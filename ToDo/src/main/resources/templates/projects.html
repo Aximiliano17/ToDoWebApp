@@ -56,7 +56,7 @@
 				<tr th:each="project: ${projects}"
 					th:style="${project.progress} == ${T(com.todo.domain.Project.Progress).Completed} ? 'background-color: chartreuse' : 'background-color: yellow'">
 					<td><a
-						th:href="@{/projects/{projectId}(projectId=${project.id})}"
+						th:href="@{/projects/{project}(project=${project.getId()})}"
 						th:text="${project.getName()}"></a></td>
 					<td th:text="${project.getDescription()}" />
 					<td th:text="${project.progress}" />
