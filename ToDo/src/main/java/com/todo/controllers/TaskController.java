@@ -1,7 +1,6 @@
 package com.todo.controllers;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.todo.domain.Task;
-import com.todo.domain.Task.Difficulty;
 import com.todo.domain.Task.Priority;
 import com.todo.domain.User;
 import com.todo.domain.Project;

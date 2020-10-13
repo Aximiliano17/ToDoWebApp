@@ -50,11 +50,6 @@
 					th:href="@{'/tasks/page/'+ ${currentPage}+ '?project='+ ${project.getId()}+ '&sortField=name&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
 						&#9650</a></th>
 				<th data-column="description">Description</th>
-				<th style="text-align: center" data-column="difficulty">Difficulty
-					<a
-					th:href="@{'/tasks/page/'+ ${currentPage}+ '?project='+ ${project.getId()}+ '&sortField=difficulty&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
-						&#9650</a>
-				</th>
 				<th style="text-align: center" data-column="priority">Priority<a
 					th:href="@{'/tasks/page/'+ ${currentPage}+ '?project='+ ${project.getId()}+ '&sortField=priority&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
 						&#9650</a></th>
@@ -66,7 +61,6 @@
 					<td><a th:href="@{/tasks/{taskId}(taskId=${task.getId()})}"
 						th:text="${task.getName()}"></a></td>
 					<td th:text="${task.getDescription()}" />
-					<td align="center" th:text="${task.getDifficulty()}" />
 					<td align="center" th:text="${task.getPriority()}" />
 					<td th:text="${task.progress}" />
 				</tr>
