@@ -22,6 +22,7 @@ public enum Difficulty
 private Integer id;
 private String name;
 private String description;
+private boolean isTrash;
 private Priority priority;
 private Difficulty difficulty;
 private User user;
@@ -84,6 +85,14 @@ public Project getProject() {
 }
 public void setProject(Project project) {
 	this.project = project;
+}
+
+public boolean isTrash() {
+	return isTrash;
+}
+
+public void setTrash(boolean isTrash) {
+	this.isTrash = isTrash;
 }
 
 }

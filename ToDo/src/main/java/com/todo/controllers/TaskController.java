@@ -44,11 +44,10 @@ public class TaskController {
 	private ProjectService projectService;
 
 	@GetMapping("/tasks")
-	public String getTasks(@AuthenticationPrincipal User user, Model model,@RequestParam(value="project",required=false) Project project) {
-		String keyword = "";
-		Progress progress = Progress.Incomplete;
+	public String getTasks(@AuthenticationPrincipal User user, Model model,
+			@RequestParam(value = "project", required = false) Project project) {
 
-		return listByPage(user, model, 1, project, "name", "asc", progress, keyword);
+		return listByPage(user, model, 1, project, "name", "asc", Progress.Incomplete, "");
 	}
 
 	@GetMapping("/tasks/page/{pageNumber}")
@@ -62,7 +61,7 @@ public class TaskController {
 		if (project == null)
 			project = projects.get(0);
 
-		Page<Task> page = taskService.findByUserAndProjectAndProgressAndNameContains(user, project, currentPage,
+		Page<Task> page = taskService.findByUserAndProjectAndProgressAndTrashFalseAndNameContains(user, project, currentPage,
 				sortField, sortDir, progress, keyword);
 
 		List<Task> tasks = page.getContent();
@@ -110,11 +109,29 @@ public class TaskController {
 		return "task";
 	}
 
+	@GetMapping("/task/delete")
+	public String deleteProject(@AuthenticationPrincipal User user, Model model, @RequestParam("task") Task task) {
+		task.setTrash(true);
+		taskService.saveTask(task);
+		return getTasks(user, model, task.getProject());
+	}
+
+	@GetMapping("/task/modify")
+	public String modifyProject(@AuthenticationPrincipal User user, Model model, @RequestParam("task") Task task) {
+		if (task.getProgress() == Progress.Completed) {
+			task.setProgress(Progress.Incomplete);
+		} else
+			task.setProgress(Progress.Completed);
+
+		taskService.saveTask(task);
+		return getTasks(user, model, task.getProject());
+	}
+
 	@PostMapping("/tasks/createTask")
-	public String saveTask(Model model,@ModelAttribute Task task, @RequestParam Project project) {
+	public String saveTask(Model model, @ModelAttribute Task task, @RequestParam Project project) {
 		System.out.println(project);
 		taskService.addTask(task, project);
-		return listByPage(task.getUser(),model, 1, project, "name","asc", Progress.Incomplete, "");
+		return listByPage(task.getUser(), model, 1, project, "name", "asc", Progress.Incomplete, "");
 	}
 
 	@PostMapping("/tasks/{taskId}")

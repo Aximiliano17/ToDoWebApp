@@ -11,6 +11,12 @@
 			window.location.href = "/tasks";
 		});
 	});
+	function Delete(id) {
+		window.location.href = "/task/delete?task=" + id;
+	}
+	function ModifyCompletion(id) {
+		window.location.href = "/task/modify?task=" + id;
+	}
 </script>
 </head>
 <body>
@@ -30,8 +36,6 @@
 						<div class="col-md-9">
 							<input type="text" th:field="*{name}" class="form-control"
 								maxlength="40" name="name" />
-
-							<!-- <p  th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Required</p> -->
 						</div>
 					</div>
 
@@ -40,7 +44,7 @@
 					</div>
 
 					<textarea class="col-md-10" rows="4" maxlength="200"
-						th:field="${task.comment}"></textarea>
+						th:field="${task.description}"></textarea>
 
 					<div class="form-group row">
 						<label class="col-md-2 col-form-label">Priority:</label> <select
@@ -58,8 +62,15 @@
 								th:value="${difficulties}" th:text="${difficulties}"></option>
 						</select>
 					</div>
-					<button type="btn" id="Return" class="btn btn-primary">Back</button>
-					<button type="submit" class="btn btn-primary">Save Task</button>
+					<div class="float-right">
+						<button type="button" class="btn"
+							th:classappend="${task.progress}==${T(com.todo.domain.Project.Progress).Completed} ? btn-warning:btn-success"
+							th:onclick="'javascript:ModifyCompletion(' + ${task.getId()} + ')'"
+							th:text="${task.progress}==${T(com.todo.domain.Project.Progress).Completed} ? Incomplete:Complete">
+						</button>
+						<button type="button" class="btn btn-danger"
+							th:onclick="'javascript:Delete(' + ${task.getId()} + ')'">Trash</button>
+					</div>
 				</form>
 
 			</div>

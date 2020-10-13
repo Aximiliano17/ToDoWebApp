@@ -22,13 +22,13 @@ public class TaskService {
 	@Autowired
 	private TaskRepository taskRepo;
 
-	public Page<Task> findByUserAndProjectAndProgressAndNameContains(User user, Project project,
+	public Page<Task> findByUserAndProjectAndProgressAndTrashFalseAndNameContains(User user, Project project,
 			int pageNumber, String sortField, String sortDir, Project.Progress progress, String keyword) {
 
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		Pageable pageable = PageRequest.of(pageNumber - 1, 5, sort);
-		return taskRepo.findByUserAndProjectAndProgressAndNameContains(user, project, progress, keyword, pageable);
+		return taskRepo.findByUserAndProjectAndProgressAndTrashFalseAndNameContains(user, project, progress, keyword, pageable);
 	}
 
 	public List<Task> getAllTasks() {
@@ -60,5 +60,4 @@ public class TaskService {
 	public Object getUserTasks(User user) {
 		return taskRepo.findAllByUser(user);
 	}
-
 }
