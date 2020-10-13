@@ -44,11 +44,9 @@ public class TaskController {
 	private ProjectService projectService;
 
 	@GetMapping("/tasks")
-	public String getTasks(@AuthenticationPrincipal User user, Model model) {
+	public String getTasks(@AuthenticationPrincipal User user, Model model,@RequestParam(value="project",required=false) Project project) {
 		String keyword = "";
 		Progress progress = Progress.Incomplete;
-
-		Project project = null;
 
 		return listByPage(user, model, 1, project, "name", "asc", progress, keyword);
 	}

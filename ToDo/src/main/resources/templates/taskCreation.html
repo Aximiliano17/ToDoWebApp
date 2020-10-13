@@ -9,11 +9,10 @@
 	integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM="
 	crossorigin="anonymous"></script>
 <script type="text/javascript">
-	$(function() {
-		$("#return").click(function() {
-			window.location.href = "/tasks";
-		});
-	});
+function Return(id){
+	window.location.href = "/tasks?project="+id;
+}
+
 </script>
 </head>
 <div th:replace="fragments/header::header2" >
@@ -62,7 +61,7 @@
 								th:value="${difficulties}" th:text="${difficulties}"></option>
 						</select>
 					</div>
-					<button type="button" id="return" class="btn btn-primary">Back</button>
+					<button type="button" id="return" class="btn btn-primary" th:onclick="'javascript:Return(' + ${project.getId()} + ')'">Back</button>
 					<button type="submit" class="btn btn-primary">Save
 						Task</button>
 				</form>
