@@ -17,11 +17,10 @@ import java.time.LocalDate;
 @Entity
 public class Project {
 
-	public enum Progress
-	{
+	public enum Progress {
 		Incomplete, Completed
 	}
-	
+
 	private Integer id;
 	private String name;
 	private String description;
@@ -33,11 +32,12 @@ public class Project {
 	private LocalDate dueDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateCreated;
-	
-	public Project()
-	{
-		progress=Progress.Incomplete;
-		dateCreated= LocalDate.now();
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dateCompleted;
+
+	public Project() {
+		progress = Progress.Incomplete;
+		dateCreated = LocalDate.now();
 	}
 
 	// Getters and Setters
@@ -82,7 +82,7 @@ public class Project {
 	}
 
 	public void setTasks(List<Task> tasks) {
-		this.tasks=tasks;
+		this.tasks = tasks;
 	}
 
 	public Progress getProgress() {
@@ -108,9 +108,16 @@ public class Project {
 	public void setTrash(boolean isTrash) {
 		this.isTrash = isTrash;
 	}
-	
-	public String toString()
-	{
+
+	public LocalDate getDateCompleted() {
+		return dateCompleted;
+	}
+
+	public void setDateCompleted(LocalDate dateCompleted) {
+		this.dateCompleted = dateCompleted;
+	}
+
+	public String toString() {
 		return this.name;
 	}
 }
