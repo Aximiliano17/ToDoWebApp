@@ -30,11 +30,9 @@ public class TaskService {
 		Pageable pageable = PageRequest.of(pageNumber - 1, 5, sort);
 		return taskRepo.findByUserAndProjectAndProgressAndTrashFalseAndNameContains(user, project, progress, keyword, pageable);
 	}
-
-	public List<Task> getAllTasks() {
-		List<Task> tasks = new ArrayList<>();
-		taskRepo.findAll().forEach(tasks::add);
-		return tasks;
+//this method return all Incomplete Tasks-used by the Calendar view.
+	public List<Task> findByUserAndProgressAndTrashFalse(User user, Progress progress) {
+		return taskRepo.findByUserAndProgressAndTrashFalse(user, progress);
 	}
 
 	public void addTask(Task task, Project project) {

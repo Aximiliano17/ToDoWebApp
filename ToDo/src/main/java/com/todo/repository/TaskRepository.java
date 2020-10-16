@@ -19,4 +19,6 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 	List<Task> findAllByUser(User user);
 	
 	Page<Task> findByUserAndProjectAndProgressAndTrashFalseAndNameContains(User user,Project project,Project.Progress progress,String keyword, Pageable pageable);
+
+	List<Task> findByUserAndProgressAndTrashFalse(User user, Progress progress);
 }

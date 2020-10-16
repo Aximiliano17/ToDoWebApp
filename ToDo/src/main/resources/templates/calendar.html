@@ -9,10 +9,19 @@
 </head>
 <body>
 	<div th:replace="fragments/header::header2"></div>
-<div class="container col-sm-4 col-md-7 col-lg-4 mt-5">
-    <div class="card">
+<div class="" >
+<div class="row">
+<div class="card col-xm-6 col-sm-6 col-md-6 col-lg-5 mt-5">
+<h3 class="card-header justify-content-center" id="dayMonthAndYear"></h3>
+<div class="card-body" id="display">
+
+</div>
+</div>
+<div class="col-xs-0 col-sm-0 col-md-0 col-lg-1">
+</div>
+    <div class="card col-xs-6 col-sm-6 col-md-6 col-lg-5 mt-5">
         <h3 class="card-header" id="monthAndYear"></h3>
-        <table class="table table-bordered table-responsive-sm" id="calendar">
+        <table class="table table-bordered table-responsive-sm" id="calendar" style="cursor: pointer">
             <thead>
             <tr>
                 <th>Sun</th>
@@ -26,7 +35,6 @@
             </thead>
 
             <tbody id="calendar-body">
-
             </tbody>
         </table>
 
@@ -36,9 +44,13 @@
 
             <button class="btn btn-outline-primary col-sm-6" id="next" onclick="next()">Next</button>
         </div>
-        <br/>
+    </div>
     </div>
 </div>
+<script>
+var projects = "[[${projects}]]";
+var tasks= "[[${tasks}]]";
+</script>
 <script src="calendar.js" ></script>
 </body>
 </html>
