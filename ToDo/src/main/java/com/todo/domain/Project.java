@@ -12,10 +12,19 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-public class Project {
+public class Project implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public enum Progress {
 		Incomplete, Completed
@@ -24,8 +33,10 @@ public class Project {
 	private Integer id;
 	private String name;
 	private String description;
+	@JsonBackReference
 	private User user;
 	private boolean isTrash;
+	@JsonBackReference
 	private List<Task> tasks = new ArrayList<>();
 	private Progress progress;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
