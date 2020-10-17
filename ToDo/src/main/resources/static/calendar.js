@@ -2,6 +2,7 @@ let today = new Date();
 let currentMonth = today.getMonth();
 let currentYear = today.getFullYear();
 let displayedDate = today;
+console.log(currentMonth);
 
 let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -10,11 +11,13 @@ let selectedTd;
 let monthAndYear = document.getElementById("monthAndYear");
 showCalendar(currentMonth, currentYear);
 
+
 //create and display Calendar
 function showCalendar(month, year) {
 
 	let firstDay = (new Date(year, month)).getDay();
 	let daysInMonth = 32 - new Date(year, month, 32).getDate();
+	let trueMonth=month+1;//Because months start with 0.
 
 	let tbl = document.getElementById("calendar-body"); // body of the calendar
 
@@ -50,6 +53,18 @@ function showCalendar(month, year) {
 				if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
 					cell.classList.add("bg-info");
 				} // color today's date
+				
+				//Check for dueDates matching with calendar dates and color them.
+				let dayString = year + "-" + trueMonth.toString().padStart(2, 0)  + "-" + date.toString().padStart(2,0);
+				for (let i = 0; i < projects.length; i++) {
+					if (dayString == projects[i].dueDate)
+						cell.classList.add("bg-danger");
+				}
+				for (let j = 0; j < tasks.length; j++) {
+					if (dayString == tasks[j].dueDate && !cell.classList.contains('bg-danger'))
+							cell.classList.add("bg-warning");
+				}
+				
 				cell.appendChild(cellText);
 				row.appendChild(cell);
 				date++;
@@ -86,6 +101,7 @@ function showCalendar(month, year) {
 	}
 
 	function next() {
+		console.log("testing next")
 		currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
 		currentMonth = (currentMonth + 1) % 12;
 		showCalendar(currentMonth, currentYear);

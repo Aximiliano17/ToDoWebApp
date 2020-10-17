@@ -2,55 +2,58 @@
 <html xmlns:th="http://thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <script th:replace="fragments/header::header1">
+	
 </script>
 <title></title>
 </head>
 <body>
 	<div th:replace="fragments/header::header2"></div>
-<div class="" >
-<div class="row">
-<div class="card col-xm-6 col-sm-6 col-md-6 col-lg-5 mt-5">
-<h3 class="card-header justify-content-center" id="dayMonthAndYear"></h3>
-<div class="card-body" id="display">
+	<div class="container">
+		<div class="row">
+			<div class="card col-xm-6 col-sm-6 col-md-6 col-lg-5 mt-5">
+				<h3 class="card-header justify-content-center" id="dayMonthAndYear"></h3>
+				<div class="card-body" id="display"></div>
+			</div>
+			<div class="col-xs-0 col-sm-0 col-md-0 col-lg-1"></div>
+			<div class="card col-xs-6 col-sm-6 col-md-6 col-lg-5 mt-5">
+				<h3 class="card-header" id="monthAndYear"></h3>
+				<table class="table table-bordered table-responsive-sm"
+					id="calendar" style="cursor: pointer">
+					<thead>
+						<tr>
+							<th>Sun</th>
+							<th>Mon</th>
+							<th>Tue</th>
+							<th>Wed</th>
+							<th>Thu</th>
+							<th>Fri</th>
+							<th>Sat</th>
+						</tr>
+					</thead>
 
-</div>
-</div>
-<div class="col-xs-0 col-sm-0 col-md-0 col-lg-1">
-</div>
-    <div class="card col-xs-6 col-sm-6 col-md-6 col-lg-5 mt-5">
-        <h3 class="card-header" id="monthAndYear"></h3>
-        <table class="table table-bordered table-responsive-sm" id="calendar" style="cursor: pointer">
-            <thead>
-            <tr>
-                <th>Sun</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
-            </tr>
-            </thead>
+					<tbody id="calendar-body">
+					</tbody>
+				</table>
 
-            <tbody id="calendar-body">
-            </tbody>
-        </table>
+				<div class="form-inline">
 
-        <div class="form-inline">
+					<button class="btn btn-outline-primary col-sm-6" id="previous"
+						onclick="previous()">Previous</button>
 
-            <button class="btn btn-outline-primary col-sm-6" id="previous" onclick="previous()">Previous</button>
-
-            <button class="btn btn-outline-primary col-sm-6" id="next" onclick="next()">Next</button>
-        </div>
-    </div>
-    </div>
-</div>
-<script>
-var projects = "[[${projects}]]";
-var tasks= "[[${tasks}]]";
-</script>
-<script src="calendar.js" ></script>
+					<button class="btn btn-outline-primary col-sm-6" id="next"
+						onclick="next()">Next</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	  var projects = /*[[${projects}]]*/ [];
+	  var tasks = /*[[${tasks}]]*/ [];
+	/*]]>*/
+	</script>
+	<script src="calendar.js"></script>
 </body>
 </html>

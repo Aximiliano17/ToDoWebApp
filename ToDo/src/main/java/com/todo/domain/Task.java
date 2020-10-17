@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Task {
 
@@ -22,6 +24,7 @@ public class Task {
 	private String description;
 	private boolean isTrash;
 	private Priority priority;
+	@JsonBackReference
 	private User user;
 	private Project.Progress progress;
 	private Project project;
