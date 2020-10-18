@@ -115,15 +115,41 @@ function showDisplay(date) {
 	display.innerHTML = "";
 
 	titleDate.innerHTML = date;
+	let check = false;
+
+
 
 	for (let i = 0; i < projects.length; i++) {
 		if (projects[i].dueDate == date) {
-			display.innerHTML = "Project " + projects[i].name + " is due.";
+			let node = document.createElement("LI");
+			const link = document.createElement("a");
+			link.href = "/projects/" + projects[i].id;
+			let textNode2 = document.createTextNode(projects[i].name);
+			link.appendChild(textNode2);
+			link.title = projects[i].name;
+			let textNode1 = document.createTextNode("Project: ");
+			node.appendChild(textNode1);
+			node.appendChild(link);
+			display.appendChild(node);
+			check = true;
 		}
 	}
 	for (let i = 0; i < tasks.length; i++) {
 		if (tasks[i].dueDate == date) {
-			display.innerHTML = "Task " + tasks[i].name + " is due.";
+		let node = document.createElement("LI");
+			const link = document.createElement("a");
+			link.href = "/tasks/" + tasks[i].id;
+			let textNode2 = document.createTextNode(tasks[i].name);
+			link.appendChild(textNode2);
+			link.title = tasks[i].name;
+			let textNode1 = document.createTextNode("Task: ");
+			node.appendChild(textNode1);
+			node.appendChild(link);
+			display.appendChild(node);
+			check = true;
 		}
+	}
+	if (!check) {
+		display.innerHTML = "None";
 	}
 }
