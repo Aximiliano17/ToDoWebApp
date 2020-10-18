@@ -26,10 +26,11 @@
 	</div>
 	<div align="right" style="margin-right: 5em">
 		<form
-			th:action="@{/tasks/page/1} + '?project=' + ${project} +
-			'&sortField=' + ${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}"
-			th:object="${project}">
+			th:action="@{/tasks/page/1} +
+			'?sortField=' + ${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}">
 			<label>Project:</label> <select name="project">
+			<option th:text=null th:selected="${project==null}">
+			</option>
 				<option th:each="p : ${projects}" th:value="${p.getId()}"
 					th:text="${p}" th:selected="${p==project}"></option>
 			</select> <label>Filter:</label> <select name="progress">
@@ -47,16 +48,16 @@
 		<table class="table" border="1">
 			<tr class="bg-info" bgcolor="#fff">
 				<th data-column="name">Name <a
-					th:href="@{'/tasks/page/'+ ${currentPage}+ '?project='+ ${project.getId()}+ '&sortField=name&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
+					th:href="@{'/tasks/page/'+ ${currentPage}+'?sortField=name&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
 						&#9650</a></th>
 				<th data-column="description">Description</th>
 				<th style="text-align: center" data-column="priority">Priority<a
-					th:href="@{'/tasks/page/'+ ${currentPage}+ '?project='+ ${project.getId()}+ '&sortField=priority&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
+					th:href="@{'/tasks/page/'+ ${currentPage}+ '?sortField=priority&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
 						&#9650</a></th>
 				<th data-column="progress" data-order="desc">Progress</th>
 				<th class="text-nowrap" data-column="dueDate" data-order="desc">Due
 					Date <a
-					th:href="@{'/tasks/page/'+ ${currentPage}+ '?project='+ ${project.getId()}+ '&sortField=dueDate&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
+					th:href="@{'/tasks/page/'+ ${currentPage}+ '?sortField=dueDate&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
 						&#9650</a>
 				</th>
 			</tr>
@@ -99,7 +100,7 @@
 	<form th:action="@{/tasks/createTask} + '?project=' + ${project}">
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}" /> <input type="hidden" name="project"
-			th:value="${project.getId()}" />
+			th:value="${project}" />
 		<button class="submit btn btn-primary" type="submit">Add Task</button>
 	</form>
 </body>

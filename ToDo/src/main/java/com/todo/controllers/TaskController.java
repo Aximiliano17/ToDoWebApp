@@ -56,11 +56,8 @@ public class TaskController {
 
 		List<Project> projects = projectService.findByUserAndProgressAndTrashFalse(user, Progress.Incomplete, "name");
 
-		if (project == null)
-			project = projects.get(0);
-
-		Page<Task> page = taskService.findByUserAndProjectAndProgressAndTrashFalseAndNameContains(user, project, currentPage,
-				sortField, sortDir, progress, keyword);
+		Page<Task> page = taskService.findByUserAndProjectAndProgressAndTrashFalseAndNameContains(user, project,
+				currentPage, sortField, sortDir, progress, keyword);
 
 		List<Task> tasks = page.getContent();
 		long totalItems = page.getTotalElements();
@@ -93,17 +90,21 @@ public class TaskController {
 	}
 
 	@GetMapping("/tasks/{taskId}")
-	public String getTask(@PathVariable Integer taskId, ModelMap model, HttpServletResponse response)
-			throws IOException {
+	public String getTask(@PathVariable Integer taskId, Model model, HttpServletResponse response) throws IOException {
 		Optional<Task> taskOpt = taskService.getTask(taskId);
 
 		if (taskOpt.isPresent()) {
 			Task task = taskOpt.get();
-			model.put("task", task);
+			model.addAttribute("task", task);
+
+			List<Project> projects = projectService.findByUserAndProgressAndTrashFalse(task.getUser(),
+					Progress.Incomplete, "");
+			model.addAttribute("projects", projects);
 		} else {
 			response.sendError(HttpStatus.NOT_FOUND.value(), "Task with id " + taskId + " was not found");
 			return "task";
 		}
+
 		return "task";
 	}
 
