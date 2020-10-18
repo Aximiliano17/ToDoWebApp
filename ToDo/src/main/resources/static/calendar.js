@@ -66,7 +66,7 @@ function showCalendar(month, year) {
 
 				if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
 					cell.classList.add("bg-primary");
-					showDisplay(dateString);
+					showDisplay(dateString,date);
 				} // color today's date
 
 				//Check for dueDates matching with calendar dates and color them.
@@ -100,13 +100,13 @@ function createMouseEvent() {
 					let day = parseInt($(event.target).text());
 					let trueMonth = currentMonth + 1;
 					let dateString = currentYear + "-" + trueMonth.toString().padStart(2, 0) + "-" + day.toString().padStart(2, 0);
-					showDisplay(dateString);//update the display when clicking a Date
+					showDisplay(dateString,day);//update the display when clicking a Date
 				};
 		}
 	}
 }
 //Updates the display with the corresponding date
-function showDisplay(date) {
+function showDisplay(date,day) {
 	let titleDate = document.getElementById("dayMonthAndYear");//header of calendar
 	let display = document.getElementById("display"); // body of the calendar
 
@@ -114,7 +114,7 @@ function showDisplay(date) {
 	titleDate.innerHTML = "";
 	display.innerHTML = "";
 
-	titleDate.innerHTML = date;
+	titleDate.innerHTML = day+" "+months[currentMonth] + " " + currentYear;
 	let check = false;
 
 
