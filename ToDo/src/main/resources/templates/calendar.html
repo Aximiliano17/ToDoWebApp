@@ -8,6 +8,11 @@
 </script>
 <title></title>
 </head>
+<style>
+.addBold {
+	font-weight: bold;
+}
+</style>
 <body>
 	<div th:replace="fragments/header::header2"></div>
 	<div class="container">
@@ -15,12 +20,14 @@
 			<div class="card col-xm-6 col-sm-6 col-md-6 col-lg-5 mt-5">
 				<h3 class="card-header justify-content-center" id="dayMonthAndYear"></h3>
 				<div class="card-body">
-				<h5>Due Today:</h5>
-				
-				
-				<ul id="display">
-				
-				</ul>
+					<h5>Due Today:</h5>
+					<ul id="display">
+					</ul>
+				</div>
+				<div class="row d-flex justify-content-center">
+					<div id="button1"></div>
+					&nbsp;
+					<div id="button2"></div>
 				</div>
 			</div>
 			<div class="col-xs-0 col-sm-0 col-md-0 col-lg-1"></div>
@@ -44,7 +51,7 @@
 					</tbody>
 				</table>
 
-				<div class="form-inline">
+				<div class="form-inline ">
 
 					<button class="btn btn-outline-primary col-sm-6" id="previous"
 						onclick="previous()">Previous</button>
@@ -56,10 +63,10 @@
 		</div>
 	</div>
 	<script th:inline="javascript">
-	/*<![CDATA[*/
-	  var projects = /*[[${projects}]]*/ [];
-	  var tasks = /*[[${tasks}]]*/ [];
-	/*]]>*/
+		/*<![CDATA[*/
+		var projects = /*[[${projects}]]*/[];
+		var tasks = /*[[${tasks}]]*/[];
+		/*]]>*/
 	</script>
 	<script src="calendar.js"></script>
 </body>

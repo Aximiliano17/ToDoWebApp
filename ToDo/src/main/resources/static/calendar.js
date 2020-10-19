@@ -5,7 +5,7 @@ let displayedDate = today;//The date that has been clicked on. By default is cur
 
 let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-let selectedTd;
+let selectedTd;//Will hold the selected Day in the calendar
 
 let monthAndYear = document.getElementById("monthAndYear");
 
@@ -65,8 +65,9 @@ function showCalendar(month, year) {
 				let cellText = document.createTextNode(date);
 
 				if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-					cell.classList.add("bg-primary");
-					showDisplay(dateString,date);
+					cell.classList.add('addBold');//Add bold to the current date
+					selectedTd = cell;
+					showDisplay(dateString, date);
 				} // color today's date
 
 				//Check for dueDates matching with calendar dates and color them.
@@ -97,16 +98,17 @@ function createMouseEvent() {
 				table.rows[i].cells[j].onclick = function() {
 					let target = event.target; // where was the click?
 					if (target.tagName != 'TD') return; // not on TD? Then we're not interested
+					highlight(target);//For bordering the selected cell
 					let day = parseInt($(event.target).text());
 					let trueMonth = currentMonth + 1;
 					let dateString = currentYear + "-" + trueMonth.toString().padStart(2, 0) + "-" + day.toString().padStart(2, 0);
-					showDisplay(dateString,day);//update the display when clicking a Date
+					showDisplay(dateString, day);//update the display when clicking a Date
 				};
 		}
 	}
 }
 //Updates the display with the corresponding date
-function showDisplay(date,day) {
+function showDisplay(date, day) {
 	let titleDate = document.getElementById("dayMonthAndYear");//header of calendar
 	let display = document.getElementById("display"); // body of the calendar
 
@@ -114,7 +116,7 @@ function showDisplay(date,day) {
 	titleDate.innerHTML = "";
 	display.innerHTML = "";
 
-	titleDate.innerHTML = day+" "+months[currentMonth] + " " + currentYear;
+	titleDate.innerHTML = day + " " + months[currentMonth] + " " + currentYear;
 	let check = false;
 
 
@@ -136,7 +138,7 @@ function showDisplay(date,day) {
 	}
 	for (let i = 0; i < tasks.length; i++) {
 		if (tasks[i].dueDate == date) {
-		let node = document.createElement("LI");
+			let node = document.createElement("LI");
 			const link = document.createElement("a");
 			link.href = "/tasks/" + tasks[i].id;
 			let textNode2 = document.createTextNode(tasks[i].name);
@@ -147,9 +149,45 @@ function showDisplay(date,day) {
 			node.appendChild(link);
 			display.appendChild(node);
 			check = true;
+
 		}
 	}
+	addButton1();//Add button through Dom for Creating Project
+	addButton2();//Add button through Dom for Creating Task
 	if (!check) {
 		display.innerHTML = "None";
 	}
 }
+function addButton1() {
+	let buttonDiv = document.getElementById("button1");
+	buttonDiv.innerHTML="";
+	let node = document.createElement("BUTTON");
+	node.innerHTML = "Create Project";
+	node.type = "button";
+	node.classList.add("btn-primary");
+	node.addEventListener("click", function() {
+		location = "/projects/createProject";
+	});
+	buttonDiv.appendChild(node);
+}
+function addButton2() {
+	let buttonDiv = document.getElementById("button2");
+	buttonDiv.innerHTML="";
+	let node = document.createElement("BUTTON");
+	node.innerHTML = "Create Task";
+	node.type = "button";
+	node.classList.add("btn-primary");
+	node.addEventListener("click", function() {
+		location = "/tasks/createTask";
+	});
+	buttonDiv.appendChild(node);
+}
+//Makes the current selection bold and removes the previous one.
+function highlight(td) {
+	console.log("Testing");
+		if (selectedTd) { // remove the existing highlight if any
+			selectedTd.classList.remove('addBold');
+		}
+		selectedTd = td;
+		selectedTd.classList.add('addBold'); // highlight the new td
+	}
