@@ -80,12 +80,15 @@ public class TaskController {
 
 	@GetMapping("/tasks/createTask")
 	public String createTask(Model model, HttpServletResponse response, @AuthenticationPrincipal User user,
-			@RequestParam Project project) throws Exception {
+			@RequestParam(required=false) Project project) throws Exception {
 
 		Task task = new Task();
 		task.setUser(user);
 		model.addAttribute("task", task);
 		model.addAttribute("project", project);
+		
+		List<Project> projects=projectService.findByUserAndProgressAndTrashFalse(user, Progress.Incomplete, "name");
+		model.addAttribute("projects",projects);
 		return "taskCreation.html";
 	}
 
@@ -98,7 +101,7 @@ public class TaskController {
 			model.addAttribute("task", task);
 
 			List<Project> projects = projectService.findByUserAndProgressAndTrashFalse(task.getUser(),
-					Progress.Incomplete, "");
+					Progress.Incomplete, "name");
 			model.addAttribute("projects", projects);
 		} else {
 			response.sendError(HttpStatus.NOT_FOUND.value(), "Task with id " + taskId + " was not found");
@@ -127,10 +130,9 @@ public class TaskController {
 	}
 
 	@PostMapping("/tasks/createTask")
-	public String saveTask(Model model, @ModelAttribute Task task, @RequestParam Project project) {
-		System.out.println(project);
-		taskService.addTask(task, project);
-		return listByPage(task.getUser(), model, 1, project, "name", "asc", Progress.Incomplete, "");
+	public String saveTask(Model model, @ModelAttribute Task task) {
+		taskService.addTask(task);
+		return listByPage(task.getUser(), model, 1, task.getProject(), "name", "asc", Progress.Incomplete, "");
 	}
 
 	@PostMapping("/tasks/{taskId}")

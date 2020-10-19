@@ -35,8 +35,7 @@ public class TaskService {
 		return taskRepo.findByUserAndProgressAndTrashFalse(user, progress);
 	}
 
-	public void addTask(Task task, Project project) {
-		task.setProject(project);
+	public void addTask(Task task) {
 		taskRepo.save(task);
 	}
 
