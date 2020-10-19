@@ -1,6 +1,7 @@
 package com.todo.controllers;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,14 +43,24 @@ public class TaskController {
 	private ProjectService projectService;
 
 	@GetMapping("/tasks")
+<<<<<<< HEAD
 	public String getTasks(@AuthenticationPrincipal User user, Model model,
 			@RequestParam(value = "project", required = false) Project project) {
 
 		return listByPage(user, model, 1, project, "name", "asc", Progress.Incomplete, "");
+=======
+	public String getTasks(@AuthenticationPrincipal User user, Model model) {
+		String keyword = "";
+		Progress progress = Progress.Incomplete;
+		Project project = null;
+
+		return listByPage(user, model, 1, project, "name", "asc", progress, keyword);
+>>>>>>> refs/remotes/origin/master
 	}
 
 	@GetMapping("/tasks/page/{pageNumber}")
 	public String listByPage(@AuthenticationPrincipal User user, Model model,
+<<<<<<< HEAD
 			@PathVariable("pageNumber") int currentPage,
 			@RequestParam(value = "project", required = false) Project project, @Param("sortField") String sortField,
 			@Param("sortDir") String sortDir, @Param("progress") Progress progress, @Param("keyword") String keyword) {
@@ -59,10 +70,25 @@ public class TaskController {
 		Page<Task> page = taskService.findByUserAndProjectAndProgressAndTrashFalseAndNameContains(user, project,
 				currentPage, sortField, sortDir, progress, keyword);
 
+=======
+			@PathVariable("pageNumber") int currentPage, @RequestParam("project") Project project,
+			@Param("sortField") String sortField, @Param("sortDir") String sortDir,
+			@Param("progress") Progress progress, @Param("keyword") String keyword) {
+		
+		List<Project> projects = projectService.findByUserAndProgressAndTrashFalse(user, progress, "name");
+		
+		Page<Task> page = taskService.findByUserAndProjectAndProgressAndNameContains(user, project, currentPage,
+				sortField, sortDir, progress, keyword);
+		
+>>>>>>> refs/remotes/origin/master
 		List<Task> tasks = page.getContent();
 		long totalItems = page.getTotalElements();
 		int totalPages = page.getTotalPages();
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> refs/remotes/origin/master
 		model.addAttribute("tasks", tasks);
 		model.addAttribute("totalItems", totalItems);
 		model.addAttribute("totalPages", totalPages);
@@ -93,11 +119,17 @@ public class TaskController {
 	}
 
 	@GetMapping("/tasks/{taskId}")
+<<<<<<< HEAD
 	public String getTask(@PathVariable Integer taskId, Model model, HttpServletResponse response) throws IOException {
+=======
+	public String getTask(@PathVariable Integer taskId, ModelMap model, HttpServletResponse response)
+			throws IOException {
+>>>>>>> refs/remotes/origin/master
 		Optional<Task> taskOpt = taskService.getTask(taskId);
 
 		if (taskOpt.isPresent()) {
 			Task task = taskOpt.get();
+<<<<<<< HEAD
 			model.addAttribute("task", task);
 
 			List<Project> projects = projectService.findByUserAndProgressAndTrashFalse(task.getUser(),
@@ -108,6 +140,13 @@ public class TaskController {
 			return "task";
 		}
 
+=======
+			model.put("task", task);
+		} else {
+			response.sendError(HttpStatus.NOT_FOUND.value(), "Task with id " + taskId + " was not found");
+			return "task";
+		}
+>>>>>>> refs/remotes/origin/master
 		return "task";
 	}
 
@@ -118,6 +157,7 @@ public class TaskController {
 		return getTasks(user, model, task.getProject());
 	}
 
+<<<<<<< HEAD
 	@GetMapping("/task/modify")
 	public String modifyProject(@AuthenticationPrincipal User user, Model model, @RequestParam("task") Task task) {
 		if (task.getProgress() == Progress.Completed) {
@@ -135,6 +175,8 @@ public class TaskController {
 		return listByPage(task.getUser(), model, 1, task.getProject(), "name", "asc", Progress.Incomplete, "");
 	}
 
+=======
+>>>>>>> refs/remotes/origin/master
 	@PostMapping("/tasks/{taskId}")
 	public String modifyTask(@ModelAttribute Task task) {
 		taskService.saveTask(task);
