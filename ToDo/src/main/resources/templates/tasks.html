@@ -26,15 +26,7 @@
 	</div>
 	<div align="right" style="margin-right: 5em">
 		<form
-<<<<<<< HEAD
-			th:action="@{/tasks/page/1} +
-			'?sortField=' + ${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}">
-=======
-			th:action="@{/tasks/page/1} + '?project=' + ${project} +
-			'&sortField=' + ${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}"
-			th:object="${project}">
-
->>>>>>> refs/remotes/origin/master
+			th:action="@{/tasks/page/1} +'?sortField=' + ${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}">
 			<label>Project:</label> <select name="project">
 				<option th:text=null th:selected="${project==null}"></option>
 				<option th:each="p : ${projects}" th:value="${p.getId()}"
@@ -70,11 +62,7 @@
 			<tbody id="myTable">
 				<tr th:each="task: ${tasks}"
 					th:style="${task.progress} == ${T(com.todo.domain.Project.Progress).Completed} ? 'background-color: chartreuse' : 'background-color: yellow'">
-<<<<<<< HEAD
-					<td><a th:href="@{/tasks/{taskId}(taskId=${task.getId()})}"
-=======
 					<td><a th:href="@{/tasks/{taskId}(taskId=${task.id})}"
->>>>>>> refs/remotes/origin/master
 						th:text="${task.getName()}"></a></td>
 					<td th:text="${task.getDescription()}" />
 					<td th:text="${task.priority}" />
@@ -99,7 +87,8 @@
 				th:href="@{'/tasks/page/'+${currentPage-1}}+ '?sortField=' +${sortField} +'&sortDir=' + ${sortDir} + '&progress=' + ${progress} +'&keyword='+ ${keyword}">Previous</a>
 			<span th:unless="${currentPage>1}">Previous</span>- <span
 				th:each="i: ${#numbers.sequence(1,totalPages)}"
-				th:if="${totalPages>0}"> <a th:if="${i != currentPage&&project!=null}"
+				th:if="${totalPages>0}"> <a
+				th:if="${i != currentPage&&project!=null}"
 				th:href="@{'/tasks/page/'+${i}} + '?project='+ ${project.getId()} + '&sortField=' +${sortField} +'&sortDir=' + ${sortDir} + '&progress=' + ${progress} +'&keyword='+ ${keyword}">[[${i}]]
 			</a> <a th:if="${i != currentPage&&project==null}"
 				th:href="@{'/tasks/page/'+${i}} + '?sortField=' +${sortField} +'&sortDir=' + ${sortDir} + '&progress=' + ${progress} +'&keyword='+ ${keyword}">[[${i}]]
