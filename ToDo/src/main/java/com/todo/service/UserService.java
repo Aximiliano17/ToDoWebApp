@@ -19,8 +19,11 @@ public class UserService {
 	private BCryptPasswordEncoder passwordEncoder;
 
 	public User save(User user) {
+		if(user.getPassword()==null)
+		{
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
+		}
 		Authority authority = new Authority();
 		authority.setAuthority("ROLE_USER");
 		authority.setUser(user);
@@ -28,9 +31,7 @@ public class UserService {
 
 		return userRepo.save(user);
 	}
-	public void updateUser(User user) {
-		userRepo.save(user);
-	}
+
 	public Optional<User> getUser(Integer id) {
 		Optional<User> userOpt = userRepo.findById(id);
 		return userOpt;
