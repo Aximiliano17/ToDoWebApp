@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
@@ -16,7 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 private UserDetailsService userDetailsSerivice;
 
 @Bean
-public PasswordEncoder getPasswordEncoder()
+public BCryptPasswordEncoder getPasswordEncoder()
 {
 	return new BCryptPasswordEncoder();
 }
@@ -37,6 +37,6 @@ protected void configure(HttpSecurity http) throws Exception
 	.anyRequest().hasRole("USER")
 	.and().formLogin().loginPage("/login").permitAll()
 	.defaultSuccessUrl("/dash")
-	.and().logout().logoutUrl("/logout").permitAll();
+	.and().logout() .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll();
 }
 }
