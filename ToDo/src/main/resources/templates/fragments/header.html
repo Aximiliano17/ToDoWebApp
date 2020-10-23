@@ -40,7 +40,7 @@
 					<li class="nav-item"><a class="nav-link" href="/calendar">Calendar</a>
 					</li>
 				</ul>
-				<div class="dropdown dropleft">
+				<div class="dropdown dropleft" sec:authorize="isAuthenticated()">
 					<button class="btn btn-secondary fas fa-hammer" type="button"
 						id="dropdownMenuButton" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="false"></button>
