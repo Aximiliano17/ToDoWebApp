@@ -31,12 +31,18 @@ public class ProjectService {
 		return projectRepo.findByUserAndProgressAndTrashFalseAndNameContains(user, progress, keyword, pageable);
 	}
 
-	public List<Project> findByUserAndTrashTrue(User user) {
-		return projectRepo.findByUserAndTrashTrue(user);
+	public Page<Project> findByUserAndTrashTrueAndNameContains(User user, String string, String keyword, int pageNumber) {
+		Sort sort = Sort.by(string);
+		sort = sort.ascending();
+		Pageable pageable = PageRequest.of(pageNumber - 1, 5, sort);
+		
+		return projectRepo.findByUserAndTrashTrueAndNameContains(user, keyword, pageable);
 	}
+	
 	public List<Project> findByUserAndProgressAndTrashFalse(User user, Progress progress, String string) {
 		Sort sort = Sort.by(string);
 		sort = sort.ascending();
+		
 		return projectRepo.findByUserAndProgressAndTrashFalse(user,progress,sort);
 	}
 

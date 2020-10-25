@@ -11,45 +11,73 @@
 	<script th:replace="fragments/header::header2">
 		
 	</script>
-	<!-- 	<script type="text/javascript">
-	function clearFilter()
-	{
-		window.location="/projects";
-	}
-	</script> -->
+	<script type="text/javascript">
+		function clearFilter() {
+			window.location = "/trash";
+		}
+	</script>
 	<div style="margin-top: 2em;">
-		<div th:if="${!projects.Empty}">
-			<h2>List of Trashed Projects</h2>
+		<div th:if="${!list.Empty}">
+			<h2>List of Trashed Items</h2>
 		</div>
-		<div th:if="${projects.Empty}">
-			<h2>No Trashed Projects Available</h2>
+		<div th:if="${list.Empty}">
+			<h2>No Trashed Items Available</h2>
 		</div>
+	</div>
+	<div align="right" style="margin-right: 5em">
+		<form th:action="@{/trash/page/1} + '?keyword=' + ${keyword}">
+			<label>Type:</label> <select name="type">
+				<option th:text="Projects" th:selected="${type=='projects'}"
+					th:value="projects"></option>
+				<option th:text="Tasks" th:selected="${type=='tasks'}"
+					th:value="tasks"></option>
+			</select> &nbsp; <input type="text" name="keyword" th:value="${keyword}" /> <label>Search:</label>
+			<input type="submit" value="Search" /> <input type="button"
+				value="Clear" onClick="clearFilter()" />
+		</form>
 	</div>
 	<div align="center" class="table-wrapper-scroll-y my-custom-scrollbar">
 		<table class="table table-striped" border="1">
 			<tr class="bg-info" bgcolor="#fff">
-				<th data-column="name" data-order="desc">Name <a
-					th:href="@{'/projects/page/'+ ${currentPage}+ '?sortField=name&sortDir='+${reverseSortDir}+'&progress=' + ${progress} + '&keyword=' + ${keyword} }">
-						&#9650</a></th>
+				<th data-column="name" data-order="desc">Name</th>
 				<th data-column="description" data-order="desc">Description</th>
-				<th data-column="dueDate" data-order="desc">Due Date</th>
 				<th data-column="action">Action</th>
 			</tr>
 			<tbody id="myTable">
-				<tr th:each="project: ${projects}">
-					<td><a
-						th:href="@{/projects/{projectId}(projectId=${project.id})}"
-						th:text="${project.getName()}"></a></td>
-					<td th:text="${project.getDescription()}" />
-					<td th:text="${project.dueDate}" />
-					<td align="center"><a th:href="@{'/delete/' + ${project.id}}">Delete</a>
+				<tr th:each="l: ${list}">
+					<td th:text="${l.getName()}"></td>
+					<td th:text="${l.getDescription()}" />
+					<td align="center"><a th:href="@{'/delete/' + ${l.id}}">Delete</a>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<div>
-			&nbsp; <span> Total Items: [[${totalItems}]]</span>
+			&nbsp; <span th:unless="${totalPages<1}"> Total Items:
+				[[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]] </span> <span
+				th:unless="${totalPages>0}"> Total Items: [[${totalItems}]] -
+				Page [[${0}]] of [[${totalPages}]] </span> &nbsp; <a
+				th:if="${currentPage>1}"
+				th:href="@{/trash/page/1} +'?keyword='+ ${keyword}+'&type='+ ${type}">First</a>
+			<span th:unless="${currentPage>1}">First</span>- <a
+				th:if="${currentPage>1}"
+				th:href="@{'/trash/page/'+${currentPage-1}}+'?keyword='+ ${keyword}+'&type='+ ${type}">Previous</a>
+
+			<span th:unless="${currentPage>1}">Previous</span>- <span
+				th:each="i: ${#numbers.sequence(1,totalPages)}"
+				th:if="${totalPages>0}"> <a th:if="${i != currentPage}"
+				th:href="@{'/trash/page/'+${i}} +'?keyword='+ ${keyword}+'&type='+ ${type}">[[${i}]]
+			</a> <span th:unless="${i != currentPage}">[[${i}]] </span> &nbsp; &nbsp;
+			</span> <a th:if="${currentPage<totalPages}"
+				th:href="@{'/trash/page/'+${currentPage+1}}+'?keyword='+ ${keyword}+'&type='+ ${type}">Next</a>
+
+			<span th:unless="${currentPage<totalPages}">Next</span>- <a
+				th:if="${currentPage<totalPages}"
+				th:href="@{'/trash/page/'+${totalPages}}+ '?keyword='+ ${keyword}+'&type='+ ${type}">Last</a>
+			<span th:unless="${currentPage<totalPages}">Last</span>
+
 		</div>
+
 	</div>
 
 </body>

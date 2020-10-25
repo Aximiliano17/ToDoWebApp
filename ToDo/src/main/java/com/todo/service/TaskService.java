@@ -1,6 +1,5 @@
 package com.todo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +33,14 @@ public class TaskService {
 	public List<Task> findByUserAndProgressAndTrashFalse(User user, Progress progress) {
 		return taskRepo.findByUserAndProgressAndTrashFalse(user, progress);
 	}
+	
+	public Page<Task> findByUserAndTrashTrueAndNameContains(User user, String string, String keyword, int pageNumber) {
+		Sort sort = Sort.by(string);
+		sort = sort.ascending();
+		Pageable pageable = PageRequest.of(pageNumber - 1, 5, sort);
+		
+		return taskRepo.findByUserAndTrashTrueAndNameContains(user, keyword, pageable);
+	}
 
 	public void addTask(Task task) {
 		taskRepo.save(task);
@@ -51,7 +58,6 @@ public class TaskService {
 	public Optional<Task> getTask(Integer id) {
 		Optional<Task> taskOpt = taskRepo.findById(id);
 		return taskOpt;
-
 	}
 
 	public Object getUserTasks(User user) {

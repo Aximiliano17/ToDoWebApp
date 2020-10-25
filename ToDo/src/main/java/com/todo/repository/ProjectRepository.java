@@ -19,7 +19,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
 	Page<Project> findByUserAndProgressAndTrashFalseAndNameContains(User user,Project.Progress progress,String keyword, Pageable pageable);
 
-	List<Project> findByUserAndTrashTrue(User user);
+	Page<Project> findByUserAndTrashTrueAndNameContains(User user, String keyword, Pageable pageable);
 
 	List<Project> findByUserAndProgressAndTrashFalse(User user, Progress progress, Sort sort);
 }

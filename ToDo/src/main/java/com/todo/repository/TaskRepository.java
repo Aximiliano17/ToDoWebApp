@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +22,6 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 	Page<Task> findByUserAndProjectAndProgressAndTrashFalseAndNameContains(User user,Project project,Project.Progress progress,String keyword, Pageable pageable);
 
 	List<Task> findByUserAndProgressAndTrashFalse(User user, Progress progress);
+
+	Page<Task> findByUserAndTrashTrueAndNameContains(User user, String keyword, Pageable pageable);
 }
