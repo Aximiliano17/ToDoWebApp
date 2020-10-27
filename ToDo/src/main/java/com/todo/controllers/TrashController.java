@@ -81,5 +81,22 @@ public class TrashController {
 		}
 		return getTrash(user, model,type);
 	}
-
+	
+	@GetMapping("/trash/restore")
+	public String restore(@AuthenticationPrincipal User user, Model model, @RequestParam(value="id") Integer id, @RequestParam String type) {
+		
+		if(type.equals("projects"))
+		{
+			Project project=projectService.getProject(id).get();
+			project.setTrash(false);
+			projectService.saveProject(project);
+		}
+		else if(type.equals("tasks"))
+		{
+			Task task=taskService.getTask(id).get();
+			task.setTrash(false);
+			taskService.saveTask(task);
+		}
+		return getTrash(user, model, type);
+	}
 }

@@ -41,13 +41,17 @@
 			<tr class="bg-info" bgcolor="#fff">
 				<th data-column="name" data-order="desc">Name</th>
 				<th data-column="description" data-order="desc">Description</th>
-				<th data-column="action">Action</th>
+				<th th:if="${type=='tasks'}" data-column="project" >Project</th>
+				<th data-column="action" style="text-align: center">Action</th>
 			</tr>
 			<tbody id="myTable">
 				<tr th:each="l: ${list}">
 					<td th:text="${l.getName()}"></td>
 					<td th:text="${l.getDescription()}" />
+					<td th:if="${type=='tasks'}" th:text="${l.getProject()}" />
 					<td align="center"><a th:href="@{/trash/delete} + '?id='+ ${l.id} + '&type=' + ${type}">Delete</a>
+					&nbsp;
+					<a th:href="@{/trash/restore} + '?id='+ ${l.id} + '&type=' + ${type}">Restore</a>
 					</td>
 				</tr>
 			</tbody>
