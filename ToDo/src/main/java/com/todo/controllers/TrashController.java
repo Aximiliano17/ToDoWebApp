@@ -27,8 +27,12 @@ public class TrashController {
 	private TaskService taskService;
 
 	@GetMapping("/trash")
-	public String getTrash(@AuthenticationPrincipal User user, Model model) {
-		return getTrashType(user, model, 1, "projects", "");
+	public String getTrash(@AuthenticationPrincipal User user, Model model,@RequestParam(required=false) String type) {
+		
+		if(type==null)
+			type="projects";
+		
+		return getTrashType(user, model, 1, type, "");
 	}
 
 	@GetMapping("/trash/page/{pageNumber}")
@@ -60,6 +64,22 @@ public class TrashController {
 		model.addAttribute("type", type);
 
 		return "trash.html";
+	}
+	
+	@GetMapping("/trash/delete")
+	public String delete(@AuthenticationPrincipal User user, Model model, @RequestParam(value="id") Integer id, @RequestParam String type) {
+		
+		if(type.equals("projects"))
+		{
+			Project project=projectService.getProject(id).get();
+			projectService.deleteProject(project);
+		}
+		else if(type.equals("tasks"))
+		{
+			Task task=taskService.getTask(id).get();
+			taskService.deleteTask(task);
+		}
+		return getTrash(user, model,type);
 	}
 
 }

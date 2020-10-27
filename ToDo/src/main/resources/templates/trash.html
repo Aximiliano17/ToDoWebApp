@@ -47,7 +47,7 @@
 				<tr th:each="l: ${list}">
 					<td th:text="${l.getName()}"></td>
 					<td th:text="${l.getDescription()}" />
-					<td align="center"><a th:href="@{'/delete/' + ${l.id}}">Delete</a>
+					<td align="center"><a th:href="@{/trash/delete} + '?id='+ ${l.id} + '&type=' + ${type}">Delete</a>
 					</td>
 				</tr>
 			</tbody>
