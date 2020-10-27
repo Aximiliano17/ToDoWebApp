@@ -9,7 +9,7 @@ public class LoginController {
 
 	@GetMapping("/")
 	public String getRoot() {
-		return "index";
+		return "login.html";
 	}
 
 	@GetMapping("/login")
