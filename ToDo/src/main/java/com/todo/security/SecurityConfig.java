@@ -35,7 +35,7 @@ protected void configure(HttpSecurity http) throws Exception
 	.antMatchers("/register").permitAll()
 	.antMatchers("/").permitAll()
 	.anyRequest().hasRole("USER")
-	.and().formLogin().loginPage("/login").permitAll()
+	.and().formLogin().loginPage("/").permitAll()
 	.defaultSuccessUrl("/dash")
 	.and().logout() .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll();
 }

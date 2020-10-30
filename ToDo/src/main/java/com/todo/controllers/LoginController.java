@@ -8,12 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class LoginController {
 
 	@GetMapping("/")
-	public String getRoot() {
-		return "login.html";
-	}
+	public String getRoot(Model model) {
 
-	@GetMapping("/login")
-	public String getLogin(Model model) {
 		model.addAttribute("hideFooter", true);
 		return "login.html";
 	}
