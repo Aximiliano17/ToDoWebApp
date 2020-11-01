@@ -12,19 +12,37 @@
 </head>
 <body>
 	<div th:replace="fragments/header::header2"></div>
-	<h1>This is the Dashboard</h1>
+	<h1>Welcome [[${name}]]</h1>
 
+	<div class="container py-4">
+		<div class="card-deck-wrapper">
+			<div class="card-deck">
+				<div class="card p-2" style="background-color: #FF6347" >
+					<a class="card-block stretched-link text-decoration-none text-dark" th:href="@{'/projects'}">
+						<h4 class="card-title" align="center">Projects</h4>
+						<p class="card-text">A Project allows you to have small tasks.</p>
 
-	<form action="/projects" method="GET">
-		<input type="hidden" th:name="${_csrf.parameterName}"
-			th:value="${_csrf.token}" />
-		<button type="submit" class="btn">Projects</button>
-	</form>
-	<form action="/tasks" method="GET">
-		<input type="hidden" th:name="${_csrf.parameterName}"
-			th:value="${_csrf.token}" />
-		<button type="submit" class="btn">Tasks</button>
-	</form>
+					</a>
+				</div>
+				<div class="card p-2" style="background-color: yellow">
+					<a class="card-block stretched-link text-decoration-none text-dark" th:href="@{'/tasks'}">
+						<h4 class="card-title" align="center">Tasks</h4>
+						<p class="card-text">You can create tasks without needing a
+							Project.</p>
 
+					</a>
+				</div>
+				<div class="card p-2" style="background-color: SpringGreen">
+					<a class="card-block stretched-link text-decoration-none text-dark" th:href="@{'/calendar'}">
+						<h4 class="card-title" align="center">Calendar</h4>
+						<p class="card-text">The calendar allows you to see the Due
+							Dates of both Projects and Tasks. Project due dates will appear as red and Task due dates as yellow. The Project color overlaps
+							the Task color.</p>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
 </body>
 </html>
