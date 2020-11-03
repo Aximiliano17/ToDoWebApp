@@ -18,17 +18,19 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
-	public User save(User user) {
-		if(user.getPassword()==null)
+	public User save(User user, boolean encodePass) {
+		if(encodePass==true)
 		{
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		}
+		if(user.getAuthorities().isEmpty())
+		{
 		Authority authority = new Authority();
 		authority.setAuthority("ROLE_USER");
 		authority.setUser(user);
 		user.getAuthorities().add(authority);
-
+		}
 		return userRepo.save(user);
 	}
 

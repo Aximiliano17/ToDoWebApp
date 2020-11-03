@@ -23,7 +23,7 @@ public class RegisterController {
 
 	@PostMapping("/register")
 	public String registerPost(User user) {
-		User savedUser = userService.save(user);
-		return "redirect:/login";
+		User savedUser = userService.save(user ,true);
+		return "redirect:/logout";
 	}
 }
