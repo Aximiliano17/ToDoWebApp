@@ -8,9 +8,7 @@
 <title></title>
 </head>
 <body>
-	<div th:replace="fragments/header::header2">
-		
-	</div>
+	<div th:replace="fragments/header::header2"></div>
 	<script type="text/javascript">
 		function clearFilter() {
 			window.location = "/projects";
@@ -23,19 +21,27 @@
 		<div th:if="${projects.Empty}">
 			<h2>No Projects Available</h2>
 		</div>
-	</div>
-	<div align="right" style="margin-right: 5em">
+	</div>	
+	<div class="container">
 		<form
 			th:action="@{/projects/page/1}+'?sortField=' +${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}">
-			<label>Filter:</label> <select name="progress">
-				<option
-					th:each="p : ${T(com.todo.domain.Project.Progress).values()}"
-					th:value="${p}" th:text="${p}" th:selected="${p.equals(progress)}"></option>
-			</select> &nbsp; <label>Search:</label> <input type="hidden" name="sortField"
-				th:value="${sortField}" /> <input type="hidden" name="sortDir"
-				th:value="${sortDir}" /> <input type="text" name="keyword"
-				th:value="${keyword}" /> <input type="submit" value="Search" /> <input
-				type="button" value="Clear" onClick="clearFilter()" />
+			<div class="row">
+			<div>
+				<label>Filter:</label> <select name="progress">
+					<option
+						th:each="p : ${T(com.todo.domain.Project.Progress).values()}"
+						th:value="${p}" th:text="${p}" th:selected="${p.equals(progress)}"></option>
+				</select>
+			</div>
+			&nbsp;
+			<div>
+				<label>Search:</label> <input type="hidden" name="sortField"
+					th:value="${sortField}" /> <input type="hidden" name="sortDir"
+					th:value="${sortDir}" /> <input type="text" name="keyword"
+					th:value="${keyword}" /> <input type="submit" value="Search" /> <input
+					type="button" value="Clear" onClick="clearFilter()" />
+			</div>
+			</div>
 		</form>
 	</div>
 	<div align="center" class="table-responsive">
@@ -94,6 +100,6 @@
 		<button class="submit btn btn-primary" type="submit">Create
 			Project</button>
 	</form>
-	
+
 </body>
 </html>

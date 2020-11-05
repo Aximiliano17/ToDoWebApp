@@ -10,33 +10,41 @@
 	
 </script>
 </head>
+<style>
+.
+</style>
 <body>
 	<div th:replace="fragments/header::header2"></div>
-	<h1>Welcome [[${name}]]</h1>
+	<h2>Welcome [[${name}]]</h2>
 
-	<div class="container py-4">
-		<div class="card-deck-wrapper">
+
+	<div class="container">
+		<div class="row">
 			<div class="card-deck">
-				<div class="card p-2" style="background-color: #FF6347" >
-					<a class="card-block stretched-link text-decoration-none text-dark" th:href="@{'/projects'}">
+				<div class="card" style="background-color: #FF6347">
+					<a class="card-block stretched-link text-decoration-none text-dark"
+						th:href="@{'/projects'}">
 						<h4 class="card-title" align="center">Projects</h4>
 						<p class="card-text">A Project allows you to have small tasks.</p>
 
 					</a>
 				</div>
-				<div class="card p-2" style="background-color: yellow">
-					<a class="card-block stretched-link text-decoration-none text-dark" th:href="@{'/tasks'}">
+				<div class="card" style="background-color: yellow">
+					<a class="card-block stretched-link text-decoration-none text-dark"
+						th:href="@{'/tasks'}">
 						<h4 class="card-title" align="center">Tasks</h4>
 						<p class="card-text">You can create tasks without needing a
 							Project.</p>
 
 					</a>
 				</div>
-				<div class="card p-2" style="background-color: SpringGreen">
-					<a class="card-block stretched-link text-decoration-none text-dark" th:href="@{'/calendar'}">
+				<div class="card" style="background-color: SpringGreen">
+					<a class="card-block stretched-link text-decoration-none text-dark"
+						th:href="@{'/calendar'}">
 						<h4 class="card-title" align="center">Calendar</h4>
 						<p class="card-text">The calendar allows you to see the Due
-							Dates of both Projects and Tasks. Project due dates will appear as red and Task due dates as yellow. The Project color overlaps
+							Dates of both Projects and Tasks. Project due dates will appear
+							as red and Task due dates as yellow. The Project color overlaps
 							the Task color.</p>
 					</a>
 				</div>

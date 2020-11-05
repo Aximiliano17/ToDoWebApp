@@ -24,16 +24,25 @@
 			<h2>No Trashed Items Available</h2>
 		</div>
 	</div>
-	<div align="right" style="margin-right: 5em">
+	<div class="container">
 		<form th:action="@{/trash/page/1} + '?keyword=' + ${keyword}">
-			<label>Type:</label> <select name="type">
-				<option th:text="Projects" th:selected="${type=='projects'}"
-					th:value="projects"></option>
-				<option th:text="Tasks" th:selected="${type=='tasks'}"
-					th:value="tasks"></option>
-			</select> &nbsp; <input type="text" name="keyword" th:value="${keyword}" /> <label>Search:</label>
-			<input type="submit" value="Search" /> <input type="button"
-				value="Clear" onClick="clearFilter()" />
+			<div class="row">
+				<div>
+
+					<label>Type:</label> <select name="type">
+						<option th:text="Projects" th:selected="${type=='projects'}"
+							th:value="projects"></option>
+						<option th:text="Tasks" th:selected="${type=='tasks'}"
+							th:value="tasks"></option>
+					</select>
+				</div>
+				&nbsp;
+				<div>
+					<label>Search:</label> <input type="text" name="keyword"
+						th:value="${keyword}" /> <input type="submit" value="Search" />
+					<input type="button" value="Clear" onClick="clearFilter()" />
+				</div>
+			</div>
 		</form>
 	</div>
 	<div align="center" class="table-wrapper-scroll-y my-custom-scrollbar">
@@ -41,7 +50,7 @@
 			<tr class="bg-info" bgcolor="#fff">
 				<th data-column="name" data-order="desc">Name</th>
 				<th data-column="description" data-order="desc">Description</th>
-				<th th:if="${type=='tasks'}" data-column="project" >Project</th>
+				<th th:if="${type=='tasks'}" data-column="project">Project</th>
 				<th data-column="action" style="text-align: center">Action</th>
 			</tr>
 			<tbody id="myTable">
@@ -49,9 +58,10 @@
 					<td th:text="${l.getName()}"></td>
 					<td th:text="${l.getDescription()}" />
 					<td th:if="${type=='tasks'}" th:text="${l.getProject()}" />
-					<td align="center"><a th:href="@{/trash/delete} + '?id='+ ${l.id} + '&type=' + ${type}">Delete</a>
-					&nbsp;
-					<a th:href="@{/trash/restore} + '?id='+ ${l.id} + '&type=' + ${type}">Restore</a>
+					<td align="center"><a
+						th:href="@{/trash/delete} + '?id='+ ${l.id} + '&type=' + ${type}">Delete</a>
+						&nbsp; <a
+						th:href="@{/trash/restore} + '?id='+ ${l.id} + '&type=' + ${type}">Restore</a>
 					</td>
 				</tr>
 			</tbody>

@@ -24,23 +24,38 @@
 			<h2>[[${project.getName()}]] Tasks</h2>
 		</div>
 	</div>
-	<div align="right" style="margin-right: 5em">
+	<div class="container">
+
 		<form
 			th:action="@{/tasks/page/1} +'?sortField=' + ${sortField} +'&sortDir=' + ${sortDir} +'&progress=' + ${progress} + '&keyword=' + ${keyword}">
-			<label>Project:</label> <select name="project">
-				<option th:text=null th:selected="${project==null}"></option>
-				<option th:each="p : ${projects}" th:value="${p.getId()}"
-					th:text="${p}" th:selected="${p==project}"></option>
-			</select> <label>Filter:</label> <select name="progress">
-				<option
-					th:each="p : ${T(com.todo.domain.Project.Progress).values()}"
-					th:value="${p}" th:text="${p}" th:selected="${p.equals(progress)}"></option>
-			</select> &nbsp; <input type="text" name="keyword" th:value="${keyword}" /> <label>Search:</label>
-			<input type="hidden" name="sortField" th:value="${sortField}" /> <input
-				type="hidden" name="sortDir" th:value="${sortDir}" /> <input
-				type="submit" value="Search" /> <input type="button" value="Clear"
-				onClick="clearFilter()" />
+			<div class="row">
+				<div>
+					<label>Project:</label> <select name="project">
+						<option th:text=null th:selected="${project==null}"></option>
+						<option th:each="p : ${projects}" th:value="${p.getId()}"
+							th:text="${p}" th:selected="${p==project}"></option>
+					</select>
+				</div>
+				&nbsp;
+				<div>
+					<label>Filter:</label> <select name="progress">
+						<option
+							th:each="p : ${T(com.todo.domain.Project.Progress).values()}"
+							th:value="${p}" th:text="${p}"
+							th:selected="${p.equals(progress)}"></option>
+					</select>
+				</div>
+				&nbsp;
+				<div>
+					<label>Search:</label> <input type="text" name="keyword"
+						th:value="${keyword}" /> <input type="hidden" name="sortField"
+						th:value="${sortField}" /> <input type="hidden" name="sortDir"
+						th:value="${sortDir}" /> <input type="submit" value="Search" />
+					<input type="button" value="Clear" onClick="clearFilter()" />
+				</div>
+			</div>
 		</form>
+
 	</div>
 	<div align="center" class="table-responsive">
 		<table class="table" border="1">

@@ -22,9 +22,8 @@
 </head>
 <body>
 	<div th:replace="fragments/header::header2"></div>
-	<div class="container">
-		<div class="card col-md-11 p-3 mb-2 bg-light text-dark"
-			style="margin-top: 1.5em">
+	<div class="container col-xs-12 col-sm-12 col-md-12 col-lg-7 mt-5">
+		<div class="card p-3 mb-2 bg-light text-dark">
 			<div class="card-body">
 				<h5 class="card-title">Modify Project [[${project}]]</h5>
 				<form action="" th:object="${project}" method="POST">
@@ -36,25 +35,25 @@
 
 
 					<div class="form-group row">
-						<label for="name" class="col-md-1 col-form-label">Name:</label>
-						<div class="col-md-9">
+						<label for="name" class="col-md-2 col-lg-3 col-form-label">Name:</label>
+						<div class="col-md-7 col-lg-7">
 							<input type="text" th:field="*{name}" class="form-control"
 								maxlength="40" name="name" required />
 						</div>
 					</div>
 
 					<div class="form-group row">
-						<label class="col-md-2 col-form-label">Description:</label>
+						<label class="col-md-2 col-lg-3 col-form-label">Description:</label>
 					</div>
 					<div>
-						<textarea class="col-md-10" rows="4" maxlength="200"
+						<textarea class="col-md-9 col-lg-10" rows="4" maxlength="200"
 							th:field="${project.description}" required></textarea>
 					</div>
 
 					<div class="form-group row">
-						<label for="dueDate" class="col-md-2 col-form-label">Due
+						<label for="dueDate" class="col-md-2 col-lg-3 col-form-label">Due
 							Date:</label>
-						<div class="col-md-3">
+						<div >
 							<input type="date" th:field="*{dueDate}" class="form-control"
 								maxlength="40" name="dueDate"
 								th:attr="min=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
